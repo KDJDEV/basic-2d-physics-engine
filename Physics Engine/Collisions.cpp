@@ -9,8 +9,9 @@ I am using double dispatch.
 Each specific kind of Entity has a collide function. If the Entity is a circle, then it calls the collideWithCircle function on the Entity it is colliding with.
 */
 
-const float response_coef = 0.75f;
 //These functions prevent me from having to fully implement a collideWithRectangle function on a Circle AND a collideWithCircle function on a Rectangle. Instead, I can just define a CIRCLE_RECTANGLE and use it for both.
+float restitutionCoefficient = 1;
+
 void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 	const math::Vector2<float> d = circle1.position - circle2.position;
 	const float dist2 = pow(d.x, 2) + pow(d.y, 2);
@@ -18,15 +19,12 @@ void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 	// Check overlapping
 	if (dist2 < min_dist * min_dist) {
 		const float dist = sqrt(dist2);
-		const math::Vector2<float> n = d / dist;
-		const float mass_ratio_1 = circle1.radius / (circle1.radius + circle2.radius);
-		const float mass_ratio_2 = circle2.radius / (circle2.radius + circle1.radius);
-		const float delta = 0.5f * response_coef * (dist - min_dist);
+		const math::Vector2<float> collisionNormal = d / dist;
 
-
-		// Update positions
-		circle1.position = circle1.position - (n * (mass_ratio_2 * delta));
-		circle2.position = circle2.position + n * (mass_ratio_1 * delta);
+		const math::Vector2<float> relativeVelocity = circle2.velocity - circle1.velocity;
+		const float relativeVelocityMagnitude = sqrt(pow(relativeVelocity.x, 2) + pow(relativeVelocity.y, 2));
+		circle1.velocity = collisionNormal * (relativeVelocityMagnitude - (relativeVelocityMagnitude * 2 * circle2.mass)/(circle1.mass + circle2.mass));
+		circle2.velocity = collisionNormal * (relativeVelocityMagnitude * 2 * circle1.mass) / (circle1.mass + circle2.mass);
 	}
 }
 void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
@@ -44,7 +42,6 @@ void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 	
 	float distanceToCircle = std::sqrt(pow((newCirclePosX - closestPointOnRec.x), 2) + pow((newCirclePosY - closestPointOnRec.y), 2));
 	if (distanceToCircle < circle.radius) {
-		//there is a collision
 		std::cout << "COLLISION";
 	}
 }
@@ -111,7 +108,6 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 	}
 
 	// If we get here, there is a collision
-	std::cout << "collision";
 
 	math::Vector2<float> pointOfCollision;
 	for (int index = 0; index < 2; index++) {
@@ -129,7 +125,6 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 
 	math::Vector2<float> r1 = pointOfCollision - rec1.position;
 	math::Vector2<float> r2 = pointOfCollision - rec2.position;
-	float restitutionCoefficient = 0;
 	float j = (-1 - restitutionCoefficient) * (rec1.velocity.dot(collisionNormal) - rec2.velocity.dot(collisionNormal) + rec1.angularVelocity * r1.dot(collisionNormal) - rec2.angularVelocity * r2.dot(collisionNormal)) / (1 / rec1.mass + 1 / rec2.mass + pow(r1.dot(collisionNormal), 2) / rec1.momentOfInteria + pow(r2.dot(collisionNormal), 2) / rec2.momentOfInteria);
 
 	rec1.velocity = rec1.velocity + collisionNormal * j / rec1.mass;

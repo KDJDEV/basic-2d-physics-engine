@@ -8,18 +8,19 @@ void Entity::update(float dt) {
 	position = position + velocity * dt;
 	velocity = velocity + acceleration * dt;
 	angle = angle + angularVelocity * dt;
-	acceleration = { 0, 0 };
-	angularAcceleration = 0;
 }
 
 using namespace shapes;
 Circle::Circle() {
 	if (!mass) mass = math::PI * pow(radius, 2);
-	momentOfInteria = mass * pow(radius, 2) / 2;
-
+	updateMomentOfInertia();
 	circleShape.setOrigin(radius, radius);
 	circleShape.setRadius(radius);
 	circleShape.setFillColor(color);
+
+	circleShapeDot.setOrigin(radius / 5, radius / 5);
+	circleShapeDot.setRadius(radius / 5);
+	circleShapeDot.setFillColor(sf::Color{255, 255, 255});
 }
 	
 
@@ -33,7 +34,9 @@ void Circle::applyWithinCircleConstraint() {
 }
 void Circle::draw(sf::RenderTarget& target) {
 	circleShape.setPosition(position.x, position.y);
+	circleShapeDot.setPosition(position.x + (-radius / 2 * std::sin(angle)), position.y + (radius / 2 * std::cos(angle)));
 	target.draw(circleShape);
+	target.draw(circleShapeDot);
 }
 
 void Circle::collide(Entity& entity) {
@@ -45,10 +48,13 @@ void Circle::collideWithCircle(shapes::Circle& circle) {
 void Circle::collideWithRectangle(shapes::Rectangle& rec) {
 	RECTANGLE_CIRCLE(rec, *this);
 }
+void Circle::updateMomentOfInertia() {
+	momentOfInteria = mass * pow(radius, 2) / 2;
+}
 
 Rectangle::Rectangle() {
 	if (!mass) mass = width * height;
-	momentOfInteria = mass * (pow(width, 2) + pow(height, 2)) / 12;
+	updateMomentOfInertia();
 
 	rectangleShape.setOrigin(width / 2, height / 2);
 	rectangleShape.setSize(sf::Vector2f{ width, height });
@@ -68,6 +74,9 @@ void Rectangle::collideWithCircle(shapes::Circle& circle) {
 }
 void Rectangle::collideWithRectangle(shapes::Rectangle& rec) {
 	RECTANGLE_RECTANGLE(rec, *this);
+}
+void Rectangle::updateMomentOfInertia() {
+	momentOfInteria = mass * (pow(width, 2) + pow(height, 2)) / 12;
 }
 
 math::Vector2<float>* Rectangle::getVertices() {

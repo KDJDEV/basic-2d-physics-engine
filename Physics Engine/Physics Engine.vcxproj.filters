@@ -51,4 +51,7 @@
   <ItemGroup>
     <Font Include="sourceCodePro.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
 </Project>

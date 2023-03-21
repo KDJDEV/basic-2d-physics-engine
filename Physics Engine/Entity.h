@@ -29,6 +29,8 @@ struct Entity {
 	virtual void collide(Entity&)=0;
 	virtual void collideWithCircle(shapes::Circle&)=0;
 	virtual void collideWithRectangle(shapes::Rectangle&)=0;
+
+	virtual void updateMomentOfInertia()=0;
 };
 namespace shapes {
 	struct Circle : Entity {
@@ -38,11 +40,13 @@ namespace shapes {
 		void applyWithinCircleConstraint() override;
 
 		sf::CircleShape circleShape{};
+		sf::CircleShape circleShapeDot{};
 		void draw(sf::RenderTarget& target) override;
 
 		void collide(Entity& entity) override;
 		void collideWithCircle(shapes::Circle& circle) override;
 		void collideWithRectangle(shapes::Rectangle& rec) override;
+		void updateMomentOfInertia() override;
 	};
 	
 	struct Rectangle : Entity {
@@ -58,6 +62,7 @@ namespace shapes {
 		void collide(Entity& entity) override;
 		void collideWithCircle(shapes::Circle& circle) override;
 		void collideWithRectangle(shapes::Rectangle& rec) override;
+		void updateMomentOfInertia() override;
 		math::Vector2<float>* getVertices();
 	};
 }

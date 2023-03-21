@@ -74,7 +74,7 @@ private:
 	}
 
 	uint32_t substeps = 100;
-	math::Vector2<float> gravity = { 0.0f, 0.0f };
+	math::Vector2<float> gravity = { 0.0f, -0.05f };
 	std::vector<std::unique_ptr<Entity>> objects;
 	math::Grid<Entity> grid;
 	float frame_dt;
