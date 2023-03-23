@@ -45,17 +45,22 @@ public:
 	}
 	void checkCollisions()
 	{
-		for (auto& obj : objects) {
+		for (int i = 0;i < objects.size();i++) {
+			for (int i2 = i+1;i2 < objects.size();i2++) {
+				objects[i]->collide(*objects[i2]);
+			}
+		}
+		/*for (auto& obj : objects) {
 			for (auto& otherObj : objects) {
 				if (obj == otherObj) continue;
 				obj->collide(*otherObj);
 			}
-		}
+		}*/
 	}
 	void applyConstraint()
 	{
 		for (auto& obj : objects) {
-			obj->applyWithinCircleConstraint();
+			//obj->applyWithinCircleConstraint();
 		}
 	}
 	std::vector<std::unique_ptr<Entity>>& const getObjects() {
@@ -74,7 +79,7 @@ private:
 	}
 
 	uint32_t substeps = 100;
-	math::Vector2<float> gravity = { 0.0f, -0.05f };
+	math::Vector2<float> gravity = { 0.0f, 0.0f };
 	std::vector<std::unique_ptr<Entity>> objects;
 	math::Grid<Entity> grid;
 	float frame_dt;

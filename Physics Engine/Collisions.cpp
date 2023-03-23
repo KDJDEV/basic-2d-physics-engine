@@ -10,9 +10,9 @@ Each specific kind of Entity has a collide function. If the Entity is a circle, 
 */
 
 //These functions prevent me from having to fully implement a collideWithRectangle function on a Circle AND a collideWithCircle function on a Rectangle. Instead, I can just define a CIRCLE_RECTANGLE and use it for both.
-float restitutionCoefficient = 1;
-
+const float restitutionCoefficient = 1;
 void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
+	
 	const math::Vector2<float> d = circle1.position - circle2.position;
 	const float dist2 = pow(d.x, 2) + pow(d.y, 2);
 	const float min_dist = circle1.radius + circle2.radius;
@@ -20,11 +20,15 @@ void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 	if (dist2 < min_dist * min_dist) {
 		const float dist = sqrt(dist2);
 		const math::Vector2<float> collisionNormal = d / dist;
+		const math::Vector2<float> relativeVelocity = circle1.velocity - circle2.velocity;
 
-		const math::Vector2<float> relativeVelocity = circle2.velocity - circle1.velocity;
-		const float relativeVelocityMagnitude = sqrt(pow(relativeVelocity.x, 2) + pow(relativeVelocity.y, 2));
-		circle1.velocity = collisionNormal * (relativeVelocityMagnitude - (relativeVelocityMagnitude * 2 * circle2.mass)/(circle1.mass + circle2.mass));
-		circle2.velocity = collisionNormal * (relativeVelocityMagnitude * 2 * circle1.mass) / (circle1.mass + circle2.mass);
+		const float j = relativeVelocity.dot(collisionNormal); //j is velocity parallel to the normal //at this point the problem becomes a one dimensional collision
+
+		float u1 = (j - (j * 2 * circle2.mass) / (circle1.mass + circle2.mass));
+		float u2 = (j * 2 * circle1.mass) / (circle1.mass + circle2.mass);
+		math::Vector2<float> perpCollisionNormal{ -collisionNormal.y, collisionNormal.x };
+		circle1.velocity = collisionNormal * u1 + perpCollisionNormal * relativeVelocity.dot(perpCollisionNormal) + circle2.velocity;
+		circle2.velocity = collisionNormal * u2 + circle2.velocity;
 	}
 }
 void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
