@@ -3,23 +3,30 @@
 #include "Entity.h"
 #include "Collisions.h"
 
-
+extern float pixelsPerMeter;
 void Entity::update(float dt) {
-	position = position + velocity * dt;
-	velocity = velocity + acceleration * dt;
-	angle = angle + angularVelocity * dt;
+	if (!anchored) {
+		position = position + velocity * dt;
+		velocity = velocity + acceleration * dt;
+		angle = angle + angularVelocity * dt;
+	}
+}
+void Entity::setAnchored(bool anchored) {
+	this->anchored = anchored;
+	mass = INFINITY;
+	updateMomentOfInertia();
 }
 
 using namespace shapes;
 Circle::Circle() {
-	if (!mass) mass = math::PI * pow(radius, 2);
+	updateMass();
 	updateMomentOfInertia();
-	circleShape.setOrigin(radius, radius);
-	circleShape.setRadius(radius);
+	circleShape.setOrigin(radius * pixelsPerMeter, radius * pixelsPerMeter);
+	circleShape.setRadius(radius * pixelsPerMeter);
 	circleShape.setFillColor(color);
 
-	circleShapeDot.setOrigin(radius / 5, radius / 5);
-	circleShapeDot.setRadius(radius / 5);
+	circleShapeDot.setOrigin(radius / 5 * pixelsPerMeter, radius / 5 * pixelsPerMeter);
+	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);
 	circleShapeDot.setFillColor(sf::Color{255, 255, 255});
 }
 	
@@ -33,8 +40,8 @@ void Circle::applyWithinCircleConstraint() {
 	}
 }
 void Circle::draw(sf::RenderTarget& target) {
-	circleShape.setPosition(position.x, position.y);
-	circleShapeDot.setPosition(position.x + (-radius / 2 * std::sin(angle)), position.y + (radius / 2 * std::cos(angle)));
+	circleShape.setPosition(position.x * pixelsPerMeter, position.y * pixelsPerMeter);
+	circleShapeDot.setPosition((position.x + (-radius / 2 * std::sin(angle))) * pixelsPerMeter, (position.y + (radius / 2 * std::cos(angle))) * pixelsPerMeter);
 	target.draw(circleShape);
 	target.draw(circleShapeDot);
 }
@@ -51,17 +58,24 @@ void Circle::collideWithRectangle(shapes::Rectangle& rec) {
 void Circle::updateMomentOfInertia() {
 	momentOfInteria = mass * pow(radius, 2) / 2;
 }
+void Circle::updateMass() {
+	mass = math::PI * pow(radius, 2);
+}
+void Circle::updateRadius(float radius) {
+	radius = radius;
+	circleShape.setRadius(radius * pixelsPerMeter);
+}
 
 Rectangle::Rectangle() {
-	if (!mass) mass = width * height;
+	updateMass();
 	updateMomentOfInertia();
 
-	rectangleShape.setOrigin(width / 2, height / 2);
-	rectangleShape.setSize(sf::Vector2f{ width, height });
+	rectangleShape.setOrigin(width / 2 * pixelsPerMeter, height / 2 * pixelsPerMeter);
+	rectangleShape.setSize(sf::Vector2f{ width * pixelsPerMeter, height * pixelsPerMeter });
 	rectangleShape.setFillColor(color);
 }
 void Rectangle::draw(sf::RenderTarget& target) {
-	rectangleShape.setPosition(position.x, position.y);
+	rectangleShape.setPosition(position.x * pixelsPerMeter, position.y * pixelsPerMeter);
 	rectangleShape.setRotation(angle * 180.0f / math::PI);
 	target.draw(rectangleShape);
 }
@@ -78,7 +92,17 @@ void Rectangle::collideWithRectangle(shapes::Rectangle& rec) {
 void Rectangle::updateMomentOfInertia() {
 	momentOfInteria = mass * (pow(width, 2) + pow(height, 2)) / 12;
 }
-
+void Rectangle::updateMass() {
+	mass = width * height;
+}
+void Rectangle::updateSize(float width, float height) {
+	this->width = width;
+	this->height = height;
+	rectangleShape.setSize(sf::Vector2f{ width * pixelsPerMeter, height * pixelsPerMeter });
+	rectangleShape.setOrigin(width / 2 * pixelsPerMeter, height / 2 * pixelsPerMeter);
+	updateMass();
+	updateMomentOfInertia();
+}
 math::Vector2<float>* Rectangle::getVertices() {
 	auto rotateAndTranslate = [this](math::Vector2<float>& point, float angle){
 		float pointX = std::cos(angle) * point.x - std::sin(angle) * point.y;

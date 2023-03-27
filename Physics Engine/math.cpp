@@ -43,7 +43,7 @@ float Vector2<t>::dot(Vector2<t> other) const {
 template <typename t>
 Grid<t>::Grid() {}
 template <typename t>
-Grid<t>::Grid(float squareSize, Vector2<float> windowSize) : squareSize{squareSize} {
+Grid<t>::Grid(float squareSize, Vector2<float> windowSize) : squareSize{ squareSize } {
 	calculateDimensions(windowSize);
 
 	gridArray = new std::set<t*>*[dimensions.x];

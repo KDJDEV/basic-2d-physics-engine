@@ -9,7 +9,7 @@
 class Solver {
 public:
 	Solver(math::Vector2<float> windowSize) {
-		grid = math::Grid<Entity>{	20.0f, windowSize }; //must be no less than one third of the windowSize and twice the size of the ball
+		grid = math::Grid<Entity>{ 20.0f, windowSize }; //must be no less than one third of the windowSize and twice the size of the ball
 		grid.calculateDimensions(windowSize);
 	}
 	void update() {
@@ -21,7 +21,7 @@ public:
 			applyConstraint();
 		}
 	}
-	
+
 	template <typename t>
 	t& addObject() {
 		std::unique_ptr<t> object = std::make_unique<t>();
@@ -46,22 +46,23 @@ public:
 	void checkCollisions()
 	{
 		for (int i = 0;i < objects.size();i++) {
-			for (int i2 = i+1;i2 < objects.size();i2++) {
+			for (int i2 = i + 1;i2 < objects.size();i2++) {
 				objects[i]->collide(*objects[i2]);
 			}
 		}
-		/*for (auto& obj : objects) {
-			for (auto& otherObj : objects) {
-				if (obj == otherObj) continue;
-				obj->collide(*otherObj);
-			}
-		}*/
 	}
 	void applyConstraint()
 	{
 		for (auto& obj : objects) {
 			//obj->applyWithinCircleConstraint();
 		}
+	}
+	float getKE() {
+		float KE = 0;
+		for (auto& obj : objects) {
+			KE += obj->mass * (pow(obj->velocity.x, 2) + pow(obj->velocity.y, 2)) / 2 + obj->momentOfInteria * pow(obj->angularVelocity, 2) / 2;
+		}
+		return KE;
 	}
 	std::vector<std::unique_ptr<Entity>>& const getObjects() {
 		return objects;
@@ -78,8 +79,8 @@ private:
 		return frame_dt / (float)substeps;
 	}
 
-	uint32_t substeps = 100;
-	math::Vector2<float> gravity = { 0.0f, 0.0f };
+	uint32_t substeps = 10;
+	math::Vector2<float> gravity = { 0.0f, 0.02f };
 	std::vector<std::unique_ptr<Entity>> objects;
 	math::Grid<Entity> grid;
 	float frame_dt;
