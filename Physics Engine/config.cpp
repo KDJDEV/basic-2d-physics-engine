@@ -3,8 +3,9 @@
 uint32_t frame_rate = 60;
 const char* windowTitle = "Physics Engine";
 float pixelsPerMeter = 30;
-
 math::Vector2<float> windowSizeInMeters{ 30, 30 };
+
+float restitutionCoefficient = 1;
 
 
 //This can be automatically computed

@@ -48,13 +48,6 @@ struct Renderer {
 	void render(Solver& solver) {
 		frameCount++;
 
-		sf::CircleShape constraint_background{ 300.0f };
-		constraint_background.setOrigin(300.0f, 300.0f);
-		constraint_background.setFillColor(sf::Color::Black);
-		constraint_background.setPosition(300.0f, 300.0f);
-		constraint_background.setPointCount(128);
-		target.draw(constraint_background);
-
 		target.draw(grid);
 
 		for (auto const& object : solver.getObjects()) {

@@ -60,6 +60,7 @@ public:
 	float getKE() {
 		float KE = 0;
 		for (auto& obj : objects) {
+			if (!obj->anchored)
 			KE += obj->mass * (pow(obj->velocity.x, 2) + pow(obj->velocity.y, 2)) / 2 + obj->momentOfInteria * pow(obj->angularVelocity, 2) / 2;
 		}
 		return KE;
@@ -79,7 +80,7 @@ private:
 		return frame_dt / (float)substeps;
 	}
 
-	uint32_t substeps = 10;
+	uint32_t substeps = 1000;
 	math::Vector2<float> gravity = { 0.0f, 0.02f };
 	std::vector<std::unique_ptr<Entity>> objects;
 	math::Grid<Entity> grid;

@@ -8,7 +8,7 @@ I am using double dispatch.
 
 Each specific kind of Entity has a collide function. If the Entity is a circle, then it calls the collideWithCircle function on the Entity it is colliding with.
 */
-const float restitutionCoefficient = 1;
+extern float restitutionCoefficient;
 /*float calculate_j(Entity& obj1, Entity& obj2, math::Vector2<float> r1, math::Vector2<float> r2, math::Vector2<float> collisionNormal) { //calculates impulse scalar
 	return (-1 - restitutionCoefficient) * (obj1.velocity.dot(collisionNormal) - obj2.velocity.dot(collisionNormal) + obj1.angularVelocity * r1.dot(collisionNormal) - obj2.angularVelocity * r2.dot(collisionNormal)) / (1 / obj1.mass + 1 / obj2.mass + pow(r1.dot(collisionNormal), 2) / obj1.momentOfInteria + pow(r2.dot(collisionNormal), 2) / obj2.momentOfInteria);
 }*/
@@ -69,6 +69,7 @@ void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 	if (dist2 < pow(circle.radius, 2)) {
 		if (objectsCollidingPairs.find(std::make_pair(&circle, &rec)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
 			objectsCollidingPairs.insert(std::make_pair(&circle, &rec));
+
 			const math::Vector2<float> closestPointOnRecRelativeToRec = closestPointOnRec - rec.position;
 			const float pointOfCollisionX = std::cos(-rotationAngle) * (closestPointOnRecRelativeToRec.x) - std::sin(-rotationAngle) * (closestPointOnRecRelativeToRec.y) + rec.position.x;
 			const float pointOfCollisionY = std::sin(-rotationAngle) * (closestPointOnRecRelativeToRec.x) + std::cos(-rotationAngle) * (closestPointOnRecRelativeToRec.y) + rec.position.y;
@@ -166,6 +167,7 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 	}
 
 	// If we get here, there is a collision
+
 	if (objectsCollidingPairs.find(std::make_pair(&rec1, &rec2)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
 		objectsCollidingPairs.insert(std::make_pair(&rec1, &rec2));
 
