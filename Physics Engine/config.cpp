@@ -5,6 +5,7 @@ const char* windowTitle = "Physics Engine";
 float pixelsPerMeter = 30;
 math::Vector2<float> windowSizeInMeters{ 30, 30 };
 
+math::Vector2<float> gravity = { 0.0f, 0.01f };
 float restitutionCoefficient = 1;
 
 

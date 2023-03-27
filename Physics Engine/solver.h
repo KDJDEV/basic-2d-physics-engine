@@ -5,7 +5,12 @@
 #include <SFML/Graphics.hpp>
 #include "math.h"
 #include "Entity.h"
+#include "Spring.h"
 #include <set>
+
+extern math::Vector2<float> gravity;
+extern math::Vector2<float> windowSizeInMeters;
+
 class Solver {
 public:
 	Solver(math::Vector2<float> windowSize) {
@@ -17,7 +22,8 @@ public:
 		for (uint32_t i{ substeps }; i--;) {
 			applyGravity();
 			updateObjects(substep_dt);
-			findCollisions();
+			applySpringForces(substep_dt);
+			checkCollisions();
 			applyConstraint();
 		}
 	}
@@ -27,6 +33,12 @@ public:
 		std::unique_ptr<t> object = std::make_unique<t>();
 		t* ptr = object.get();
 		objects.push_back(std::move(object));
+		return *ptr;
+	}
+	Spring& addSpring(Entity& obj1, Entity& obj2, float k = 1) {
+		std::unique_ptr<Spring> spring = std::make_unique<Spring>(obj1, obj2, k);
+		Spring* ptr = spring.get();
+		springs.push_back(std::move(spring));
 		return *ptr;
 	}
 	void updateObjects(float substep_dt) {
@@ -40,15 +52,17 @@ public:
 		}
 	}
 
-	void findCollisions() {
-		checkCollisions();
-	}
 	void checkCollisions()
 	{
 		for (int i = 0;i < objects.size();i++) {
 			for (int i2 = i + 1;i2 < objects.size();i2++) {
 				objects[i]->collide(*objects[i2]);
 			}
+		}
+	}
+	void applySpringForces(float substep_dt) {
+		for (auto& spring : springs) {
+			spring->applyForces(substep_dt);
 		}
 	}
 	void applyConstraint()
@@ -68,6 +82,9 @@ public:
 	std::vector<std::unique_ptr<Entity>>& const getObjects() {
 		return objects;
 	}
+	std::vector<std::unique_ptr<Spring>>& const getSprings() {
+		return springs;
+	}
 	void set_frame_dt(uint32_t rate) {
 		frame_dt = 1.0f / static_cast<float>(rate);
 	}
@@ -81,8 +98,8 @@ private:
 	}
 
 	uint32_t substeps = 1000;
-	math::Vector2<float> gravity = { 0.0f, 0.02f };
 	std::vector<std::unique_ptr<Entity>> objects;
+	std::vector<std::unique_ptr<Spring>> springs;
 	math::Grid<Entity> grid;
 	float frame_dt;
 };

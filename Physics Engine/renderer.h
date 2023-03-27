@@ -53,6 +53,9 @@ struct Renderer {
 		for (auto const& object : solver.getObjects()) {
 			object->draw(target);
 		}
+		for (auto const& spring : solver.getSprings()) {
+			spring->draw(target);
+		}
 		
 		float currentTime = clock.restart().asSeconds();
 		lastTime = currentTime;

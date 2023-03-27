@@ -16,32 +16,34 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t x = 0;
 
-	auto& rec1 = solver.addObject<shapes::Rectangle>();
-	/*auto& rec2 = solver.addObject<shapes::Rectangle>();*/
+	/*auto& rec1 = solver.addObject<shapes::Rectangle>();
+	auto& rec2 = solver.addObject<shapes::Rectangle>();*/
 	auto& floorRec = solver.addObject<shapes::Rectangle>();
-	/*auto& circle = solver.addObject<shapes::Circle>();
-	auto& circle2 = solver.addObject<shapes::Circle>();*/
+	auto& circle = solver.addObject<shapes::Circle>();
+	auto& circle2 = solver.addObject<shapes::Circle>();
 
-	rec1.position = { 0, 5 };
+	/*rec1.position = { 0, 5 };
 	rec1.velocity = { 2, 0 };
 	rec1.updateSize(4, 5);
 	rec1.angularVelocity = 0.1;
-	/*rec2.position = { 20, 5 };
+	rec2.position = { 20, 5 };
 	rec2.velocity = { -2.5, 0 };
-	rec2.updateSize(3, 1);
+	rec2.updateSize(4, 5);
 	rec2.angularVelocity = 0.5;*/
 
 
-	/*circle.position = { 10, 5 };
+	circle.position = { 10, 5 };
 	circle.angularVelocity = 0;
 	circle.velocity = { 5, 1 };
 	circle2.position = { 15, 15 };
 	circle2.angularVelocity = 0;
-	circle2.velocity = { 0, 5 };*/
+	circle2.velocity = { 0, 5 };
 
 	floorRec.position = { windowSizeInMeters.x / 2, windowSizeInMeters.y };
 	floorRec.updateSize(windowSizeInMeters.x, 10);
 	floorRec.setAnchored(true);
+
+	auto& spring = solver.addSpring(circle, circle2, 4 * 0.000000001);
 
 
 	while (window.isOpen())
