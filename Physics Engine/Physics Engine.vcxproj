@@ -158,7 +158,7 @@
     <ClCompile Include="constructs.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Spring.cpp" />
+    <ClCompile Include="spring.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collisions.h" />

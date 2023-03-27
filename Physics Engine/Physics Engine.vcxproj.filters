@@ -27,7 +27,7 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Spring.cpp">
+    <ClCompile Include="spring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="constructs.cpp">
