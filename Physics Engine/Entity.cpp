@@ -1,7 +1,7 @@
 #pragma once
 #include "math.h"
-#include "Entity.h"
-#include "Collisions.h"
+#include "entity.h"
+#include "collisions.h"
 
 extern float pixelsPerMeter;
 void Entity::update(float dt) {

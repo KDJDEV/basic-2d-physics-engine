@@ -4,8 +4,8 @@
 #include <chrono>
 #include <SFML/Graphics.hpp>
 #include "math.h"
-#include "Entity.h"
-#include "Spring.h"
+#include "entity.h"
+#include "spring.h"
 #include <set>
 
 extern math::Vector2<float> gravity;

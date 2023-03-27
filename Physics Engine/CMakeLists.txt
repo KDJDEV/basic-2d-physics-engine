@@ -4,8 +4,8 @@ set(PROJECT_NAME PhysicsEngine)
 # Source groups
 ################################################################################
 set(Header_Files
-    "Collisions.h"
-    "Entity.h"
+    "collisions.h"
+    "entity.h"
     "math.h"
     "resource.h"
 )

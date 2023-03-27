@@ -2,6 +2,9 @@
 #include "renderer.h"
 #include <SFML/Graphics.hpp>
 #include "math.h"
+
+void spawnBarrierWalls(Solver& solver);
+
 int main() {
 	extern uint32_t frame_rate;
 	const extern char* windowTitle;
@@ -16,9 +19,10 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t x = 0;
 
+	spawnBarrierWalls(solver);
+
 	/*auto& rec1 = solver.addObject<shapes::Rectangle>();
 	auto& rec2 = solver.addObject<shapes::Rectangle>();*/
-	auto& floorRec = solver.addObject<shapes::Rectangle>();
 	auto& circle = solver.addObject<shapes::Circle>();
 	auto& circle2 = solver.addObject<shapes::Circle>();
 
@@ -38,10 +42,6 @@ int main() {
 	circle2.position = { 15, 15 };
 	circle2.angularVelocity = 0;
 	circle2.velocity = { 0, 5 };
-
-	floorRec.position = { windowSizeInMeters.x / 2, windowSizeInMeters.y };
-	floorRec.updateSize(windowSizeInMeters.x, 10);
-	floorRec.setAnchored(true);
 
 	auto& spring = solver.addSpring(circle, circle2, 4 * 0.000000001);
 

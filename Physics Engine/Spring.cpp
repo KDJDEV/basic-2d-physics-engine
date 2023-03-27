@@ -1,4 +1,4 @@
-#include "Spring.h"
+#include "spring.h"
 
 extern float pixelsPerMeter;
 Spring::Spring(Entity& obj1, Entity& obj2, float k) : obj1{ obj1 }, obj2{ obj2 }, springConstant{ k } {}

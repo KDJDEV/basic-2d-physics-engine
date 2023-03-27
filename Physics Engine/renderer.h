@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "solver.h"
-#include "Entity.h"
+#include "entity.h"
 #include "math.h"
 
 extern math::Vector2<float> windowSizeInMeters;

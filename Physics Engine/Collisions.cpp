@@ -1,5 +1,5 @@
 #pragma once
-#include "Collisions.h"
+#include "collisions.h"
 #include "math.h"
 #include <algorithm>
 

@@ -18,16 +18,19 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions.cpp">
+    <ClCompile Include="collisions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Spring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="constructs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,16 +47,16 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions.h">
+    <ClInclude Include="collisions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Spring.h">
+    <ClInclude Include="spring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
