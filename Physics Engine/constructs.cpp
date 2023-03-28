@@ -23,3 +23,47 @@ void spawnBarrierWalls(Solver& solver) {
 	rec4.updateSize(10, windowSizeInMeters.y - 2.1);
 	rec4.setAnchored(true);
 }
+
+void miskTest1(Solver& solver) {
+	spawnBarrierWalls(solver);
+
+	auto& rec1 = solver.addObject<shapes::Rectangle>();
+	auto& rec2 = solver.addObject<shapes::Rectangle>();
+	auto& circle = solver.addObject<shapes::Circle>();
+	auto& circle2 = solver.addObject<shapes::Circle>();
+
+	rec1.position = { 0, 5 };
+	rec1.velocity = { 2, 0 };
+	rec1.updateSize(4, 5);
+	rec1.angularVelocity = 0.1;
+	rec2.position = { 20, 5 };
+	rec2.velocity = { -2.5, 0 };
+	rec2.updateSize(4, 0.4);
+	rec2.angularVelocity = 0.5;
+
+
+	circle.position = { 10, 5 };
+	circle.angularVelocity = 0;
+	circle.velocity = { 5, 1 };
+	circle.updateRadius(5);
+	circle2.position = { 15, 15 };
+	circle2.angularVelocity = 0;
+	circle2.velocity = { 0, 5 };
+
+	auto& spring = solver.addSpring(circle, circle2, 1000 * 0.000000001);
+	auto& spring2 = solver.addSpring(rec1, rec2, 25 * 0.000000001);
+	auto& spring3 = solver.addSpring(rec1, circle, 25 * 0.000000001);
+}
+void miskTest2(Solver& solver) {
+	spawnBarrierWalls(solver);
+
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2;
+	rec.anchored = true;
+
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 2};
+	circle.velocity = { 5,0 };
+
+	auto& spring = solver.addSpring(rec, circle, 100 * 0.000000001);
+}

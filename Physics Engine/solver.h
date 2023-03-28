@@ -48,7 +48,7 @@ public:
 	}
 	void applyGravity() {
 		for (auto& object : objects) {
-			object->acceleration = object->acceleration + gravity / substeps;
+			object->velocity = object->velocity + gravity / substeps;
 		}
 	}
 
@@ -97,7 +97,7 @@ private:
 		return frame_dt / (float)substeps;
 	}
 
-	uint32_t substeps = 1000;
+	uint32_t substeps = 100;
 	std::vector<std::unique_ptr<Entity>> objects;
 	std::vector<std::unique_ptr<Spring>> springs;
 	math::Grid<Entity> grid;

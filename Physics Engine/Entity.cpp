@@ -7,7 +7,6 @@ extern float pixelsPerMeter;
 void Entity::update(float dt) {
 	if (!anchored) {
 		position = position + velocity * dt;
-		velocity = velocity + acceleration * dt;
 		angle = angle + angularVelocity * dt;
 	}
 }
@@ -62,8 +61,12 @@ void Circle::updateMass() {
 	mass = math::PI * pow(radius, 2);
 }
 void Circle::updateRadius(float radius) {
-	radius = radius;
+	this->radius = radius;
 	circleShape.setRadius(radius * pixelsPerMeter);
+	circleShape.setOrigin(radius * pixelsPerMeter, radius * pixelsPerMeter);
+
+	updateMass();
+	updateMomentOfInertia();
 }
 
 Rectangle::Rectangle() {

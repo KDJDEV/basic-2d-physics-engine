@@ -10,11 +10,9 @@ namespace shapes {
 struct Entity {
 	math::Vector2<float> position{ 0.0f, 0.0f };
 	math::Vector2<float> velocity{ 0.0f, 0.0f };
-	math::Vector2<float> acceleration{ 0.0f, 0.0f };
 
 	float angle = 0;
 	float angularVelocity = 0;
-	float angularAcceleration = 0;
 
 	float mass;
 	float momentOfInteria;

@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "math.h"
 
-void spawnBarrierWalls(Solver& solver);
+void miskTest2(Solver& solver);
 
 int main() {
 	extern uint32_t frame_rate;
@@ -18,33 +18,7 @@ int main() {
 	solver.set_frame_dt(frame_rate);
 	Renderer renderer{ window };
 	uint32_t x = 0;
-
-	spawnBarrierWalls(solver);
-
-	/*auto& rec1 = solver.addObject<shapes::Rectangle>();
-	auto& rec2 = solver.addObject<shapes::Rectangle>();*/
-	auto& circle = solver.addObject<shapes::Circle>();
-	auto& circle2 = solver.addObject<shapes::Circle>();
-
-	/*rec1.position = { 0, 5 };
-	rec1.velocity = { 2, 0 };
-	rec1.updateSize(4, 5);
-	rec1.angularVelocity = 0.1;
-	rec2.position = { 20, 5 };
-	rec2.velocity = { -2.5, 0 };
-	rec2.updateSize(4, 5);
-	rec2.angularVelocity = 0.5;*/
-
-
-	circle.position = { 10, 5 };
-	circle.angularVelocity = 0;
-	circle.velocity = { 5, 1 };
-	circle2.position = { 15, 15 };
-	circle2.angularVelocity = 0;
-	circle2.velocity = { 0, 5 };
-
-	auto& spring = solver.addSpring(circle, circle2, 4 * 0.000000001);
-
+	miskTest2(solver);
 
 	while (window.isOpen())
 	{
