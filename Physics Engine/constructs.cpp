@@ -24,7 +24,7 @@ void spawnBarrierWalls(Solver& solver) {
 	rec4.setAnchored(true);
 }
 
-void miskTest1(Solver& solver) {
+void miskTest1(Solver& solver) { //Misk objects and springs everywhere
 	spawnBarrierWalls(solver);
 
 	auto& rec1 = solver.addObject<shapes::Rectangle>();
@@ -54,16 +54,32 @@ void miskTest1(Solver& solver) {
 	auto& spring2 = solver.addSpring(rec1, rec2);
 	auto& spring3 = solver.addSpring(rec1, circle);
 }
-void miskTest2(Solver& solver) {
-	spawnBarrierWalls(solver);
-
+void miskTest2(Solver& solver) { //Simple circle connected to anchored rectangle with a spring
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2;
 	rec.anchored = true;
-
 	auto& circle = solver.addObject<shapes::Circle>();
-	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 2};
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 4};
 	circle.velocity = { 5,0 };
 
 	auto& spring = solver.addSpring(rec, circle, 20);
+}
+void miskTest3(Solver& solver) {
+
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -2};
+	circle.velocity = { 0,0 };
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.updateRadius(.5);
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, -2};
+	circle2.velocity = { 0,0 };
+	auto& spring = solver.addSpring(rec, circle, 50000, 50000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+	auto& spring2 = solver.addSpring(circle, circle2, 50000, 50000);
+	spring2.setSimulateSolid(true);
+	spring2.autoSetLength();
 }

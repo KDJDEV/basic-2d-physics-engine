@@ -38,6 +38,10 @@ template <typename t>
 float Vector2<t>::dot(Vector2<t> other) const {
 	return x * other.x + y * other.y;
 }
+template <typename t>
+float Vector2<t>::mag() const {
+	return  std::sqrt(pow(x, 2) + pow(y, 2));
+}
 
 
 template <typename t>

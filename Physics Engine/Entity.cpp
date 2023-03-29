@@ -70,6 +70,10 @@ void Circle::updateRadius(float radius) {
 
 	updateMass();
 	updateMomentOfInertia();
+
+	circleShapeDot.setOrigin(radius / 5 * pixelsPerMeter, radius / 5 * pixelsPerMeter);
+	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);
+	circleShapeDot.setFillColor(sf::Color{ 255, 255, 255 });
 }
 
 Rectangle::Rectangle() {

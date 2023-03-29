@@ -16,6 +16,7 @@ namespace math {
 		Vector2 operator*(const float scalar) const;
 		Vector2 operator/(const float scalar) const;
 
+		float mag() const;
 		float dot(Vector2<t> other) const;
 	};
 

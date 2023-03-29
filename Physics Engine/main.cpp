@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "math.h"
 
-void miskTest2(Solver& solver);
+void miskTest3(Solver& solver);
 
 int main() {
 	extern uint32_t frame_rate;
@@ -18,7 +18,7 @@ int main() {
 	solver.set_frame_dt(frame_rate);
 	Renderer renderer{ window };
 	uint32_t x = 0;
-	miskTest2(solver);
+	miskTest3(solver);
 
 	while (window.isOpen())
 	{

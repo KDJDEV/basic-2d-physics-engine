@@ -10,7 +10,7 @@
 
 extern math::Vector2<float> gravity;
 extern math::Vector2<float> windowSizeInMeters;
-
+extern uint32_t substeps;
 class Solver {
 public:
 	Solver(math::Vector2<float> windowSize) {
@@ -35,8 +35,8 @@ public:
 		objects.push_back(std::move(object));
 		return *ptr;
 	}
-	Spring& addSpring(Entity& obj1, Entity& obj2, float k = 1) {
-		std::unique_ptr<Spring> spring = std::make_unique<Spring>(obj1, obj2, k);
+	Spring& addSpring(Entity& obj1, Entity& obj2, float k = 1, float c = 0, float length = 0) {
+		std::unique_ptr<Spring> spring = std::make_unique<Spring>(obj1, obj2, k, c, length);
 		Spring* ptr = spring.get();
 		springs.push_back(std::move(spring));
 		return *ptr;
@@ -97,7 +97,6 @@ private:
 		return frame_dt / (float)substeps;
 	}
 
-	uint32_t substeps = 100;
 	std::vector<std::unique_ptr<Entity>> objects;
 	std::vector<std::unique_ptr<Spring>> springs;
 	math::Grid<Entity> grid;
