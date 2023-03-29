@@ -9,10 +9,8 @@ void Spring::applyForces(float dt) {
 
 	float force = springConstant * mag; //Hooke's Law
 	math::Vector2<float> springNormal = objectDisplacement / mag;
-	if (!obj1.anchored)
-	obj1.velocity = obj1.velocity - springNormal * force / dt / obj1.mass;
-	if (!obj2.anchored)
-	obj2.velocity = obj2.velocity + springNormal * force / dt / obj2.mass;
+	obj1.velocity = obj1.velocity - springNormal * force * dt / obj1.mass;
+	obj2.velocity = obj2.velocity + springNormal * force * dt / obj2.mass;
 }
 
 void Spring::draw(sf::RenderTarget& target) {

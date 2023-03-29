@@ -69,7 +69,6 @@ void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 	if (dist2 < pow(circle.radius, 2)) {
 		if (objectsCollidingPairs.find(std::make_pair(&circle, &rec)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
 			objectsCollidingPairs.insert(std::make_pair(&circle, &rec));
-
 			const math::Vector2<float> closestPointOnRecRelativeToRec = closestPointOnRec - rec.position;
 			const float pointOfCollisionX = std::cos(-rotationAngle) * (closestPointOnRecRelativeToRec.x) - std::sin(-rotationAngle) * (closestPointOnRecRelativeToRec.y) + rec.position.x;
 			const float pointOfCollisionY = std::sin(-rotationAngle) * (closestPointOnRecRelativeToRec.x) + std::cos(-rotationAngle) * (closestPointOnRecRelativeToRec.y) + rec.position.y;

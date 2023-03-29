@@ -32,7 +32,7 @@ void miskTest1(Solver& solver) {
 	auto& circle = solver.addObject<shapes::Circle>();
 	auto& circle2 = solver.addObject<shapes::Circle>();
 
-	rec1.position = { 0, 5 };
+	rec1.position = { 3, 5 };
 	rec1.velocity = { 2, 0 };
 	rec1.updateSize(4, 5);
 	rec1.angularVelocity = 0.1;
@@ -50,9 +50,9 @@ void miskTest1(Solver& solver) {
 	circle2.angularVelocity = 0;
 	circle2.velocity = { 0, 5 };
 
-	auto& spring = solver.addSpring(circle, circle2, 1000 * 0.000000001);
-	auto& spring2 = solver.addSpring(rec1, rec2, 25 * 0.000000001);
-	auto& spring3 = solver.addSpring(rec1, circle, 25 * 0.000000001);
+	auto& spring = solver.addSpring(circle, circle2);
+	auto& spring2 = solver.addSpring(rec1, rec2);
+	auto& spring3 = solver.addSpring(rec1, circle);
 }
 void miskTest2(Solver& solver) {
 	spawnBarrierWalls(solver);
@@ -65,5 +65,5 @@ void miskTest2(Solver& solver) {
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 2};
 	circle.velocity = { 5,0 };
 
-	auto& spring = solver.addSpring(rec, circle, 100 * 0.000000001);
+	auto& spring = solver.addSpring(rec, circle, 20);
 }

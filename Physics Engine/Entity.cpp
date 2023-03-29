@@ -5,10 +5,13 @@
 
 extern float pixelsPerMeter;
 void Entity::update(float dt) {
-	if (!anchored) {
-		position = position + velocity * dt;
-		angle = angle + angularVelocity * dt;
+	if (anchored) {
+		velocity = { 0,0 };
+		angularVelocity = 0;
 	}
+
+	position = position + velocity * dt;
+	angle = angle + angularVelocity * dt;
 }
 void Entity::setAnchored(bool anchored) {
 	this->anchored = anchored;
