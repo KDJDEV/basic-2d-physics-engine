@@ -24,7 +24,6 @@ public:
 			updateObjects(substep_dt);
 			applySpringForces(substep_dt);
 			checkCollisions();
-			applyConstraint();
 		}
 	}
 
@@ -63,12 +62,6 @@ public:
 	void applySpringForces(float substep_dt) {
 		for (auto& spring : springs) {
 			spring->applyForces(substep_dt);
-		}
-	}
-	void applyConstraint()
-	{
-		for (auto& obj : objects) {
-			//obj->applyWithinCircleConstraint();
 		}
 	}
 	float getKE() {

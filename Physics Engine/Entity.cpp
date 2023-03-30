@@ -32,16 +32,6 @@ Circle::Circle() {
 	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);
 	circleShapeDot.setFillColor(sf::Color{255, 255, 255});
 }
-	
-
-void Circle::applyWithinCircleConstraint() {
-	const math::Vector2<float> v = math::Vector2<float>{ 300.0f,300.0f } - position;
-	const float dist = sqrt(v.x * v.x + v.y * v.y);
-	if (dist > (300.0f - radius)) {
-		const math::Vector2<float> n = v / dist;
-		position = math::Vector2<float>{ 300.0f, 300.0f } - n * (300.0f - radius);
-	}
-}
 void Circle::draw(sf::RenderTarget& target) {
 	circleShape.setPosition(position.x * pixelsPerMeter, position.y * pixelsPerMeter);
 	circleShapeDot.setPosition((position.x + (-radius / 2 * std::sin(angle))) * pixelsPerMeter, (position.y + (radius / 2 * std::cos(angle))) * pixelsPerMeter);

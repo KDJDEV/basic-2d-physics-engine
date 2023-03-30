@@ -25,8 +25,6 @@ struct Entity {
 	void update(float dt);
 	virtual void draw(sf::RenderTarget& target) = 0;
 
-	virtual void applyWithinCircleConstraint() = 0;
-
 	virtual void collide(Entity&) = 0;
 	virtual void collideWithCircle(shapes::Circle&) = 0;
 	virtual void collideWithRectangle(shapes::Rectangle&) = 0;
@@ -38,8 +36,6 @@ namespace shapes {
 	struct Circle : Entity {
 		Circle();
 		float radius = 1.0f;
-
-		void applyWithinCircleConstraint() override;
 
 		sf::CircleShape circleShape{};
 		sf::CircleShape circleShapeDot{};
@@ -57,8 +53,6 @@ namespace shapes {
 		Rectangle();
 		float width = 1;
 		float height = 1;
-
-		void applyWithinCircleConstraint() override {};
 
 		sf::RectangleShape rectangleShape{};
 		void draw(sf::RenderTarget& target) override;
