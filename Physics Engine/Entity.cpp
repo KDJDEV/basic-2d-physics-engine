@@ -26,6 +26,7 @@ Circle::Circle() {
 	circleShape.setOrigin(radius * pixelsPerMeter, radius * pixelsPerMeter);
 	circleShape.setRadius(radius * pixelsPerMeter);
 	circleShape.setFillColor(color);
+	circleShape.setPointCount(100);
 
 	circleShapeDot.setOrigin(radius / 5 * pixelsPerMeter, radius / 5 * pixelsPerMeter);
 	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);

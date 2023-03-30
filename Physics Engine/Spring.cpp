@@ -6,10 +6,10 @@ Spring::Spring(Entity& obj1, Entity& obj2, float k , float c, float length) : ob
 void Spring::applyForces(float dt) {
 	math::Vector2<float> objectDisplacement = obj1.position - obj2.position;
     math::Vector2<float> objectVelocity = obj1.velocity - obj2.velocity;
-	float mag = std::sqrt(pow(objectDisplacement.x, 2) + pow(objectDisplacement.y, 2));
+	float mag = objectDisplacement.mag();
 	math::Vector2<float> springNormal = objectDisplacement / mag;
     objectDisplacement = objectDisplacement - springNormal * length;
-    mag = std::sqrt(pow(objectDisplacement.x, 2) + pow(objectDisplacement.y, 2));
+    mag = objectDisplacement.mag();
     if (mag > 0) {
         springNormal = objectDisplacement / mag;
 
@@ -22,7 +22,7 @@ void drawSolidConnector(sf::RenderTarget& target, Entity& obj1, Entity& obj2) {
     math::Vector2<float> start = obj1.position * pixelsPerMeter;
     math::Vector2<float> end = obj2.position * pixelsPerMeter;
     math::Vector2<float> difference = end - start;
-    float d = std::sqrt(pow(difference.x, 2) + pow(difference.y, 2));
+    float d = difference.mag();
     float angle = std::atan2(difference.y, difference.x)/math::PI*180 - 90;
 
     float width = 10;
@@ -60,8 +60,8 @@ void Spring::draw(sf::RenderTarget& target) {
     if (start.x == end.x && start.y == end.y) { //make sure the objects are not at the same location
         return;
     }
-
-    float length = std::sqrt(pow((end - start).x, 2) + pow((end - start).y, 2));
+    math::Vector2<float> difference = end - start;
+    float length = difference.mag();
 
     math::Vector2<float> u_t = (end - start) / length;
     math::Vector2<float> u_n(-u_t.y, u_t.x);

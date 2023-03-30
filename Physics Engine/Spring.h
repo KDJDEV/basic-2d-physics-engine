@@ -10,7 +10,7 @@ struct Spring {
 	float dampingCoefficient;
 	float length;
 
-	bool simulateSolid;
+	bool simulateSolid = false;
 
 	Spring(Entity& obj1, Entity& obj2, float k, float c, float length);
 

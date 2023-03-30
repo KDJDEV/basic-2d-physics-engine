@@ -78,7 +78,7 @@ void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 			const math::Vector2<float> rCircle = pointOfCollision - circle.position;
 			math::Vector2<float> rRecPerp{ -rRec.y, rRec.x };
 			math::Vector2<float> rCirclePerp{ -rCircle.y, rCircle.x };
-			const float mag = std::sqrt(pow(rCircle.x, 2) + pow(rCircle.y, 2));
+			const float mag = rCircle.mag();
 			math::Vector2<float> collisionNormal = rCircle / mag;
 
 			const float j = calculate_j(rec, circle, rRecPerp, rCirclePerp, collisionNormal);
@@ -114,8 +114,8 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 		auto& vertex = vertices1[index];
 		auto& otherVertex = vertices1[otherIndex];
 		math::Vector2 parallelVector{ otherVertex.x - vertex.x, otherVertex.y - vertex.y }; //because it's a rectangle we don't need to take the perpendicular
-		float magnitude = std::sqrt(std::pow(parallelVector.x, 2) + std::pow(parallelVector.y, 2));
-		math::Vector2 normalVector{ parallelVector.x / magnitude, parallelVector.y / magnitude };
+		float mag = parallelVector.mag();
+		math::Vector2 normalVector{ parallelVector.x / mag, parallelVector.y / mag };
 		edgeNormals[index] = normalVector;
 	}
 	for (int index = 0; index < 2; index++) {
@@ -124,8 +124,8 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 		auto& vertex = vertices2[index];
 		auto& otherVertex = vertices2[otherIndex];
 		math::Vector2 parallelVector{ otherVertex.x - vertex.x, otherVertex.y - vertex.y };
-		float magnitude = std::sqrt(std::pow(parallelVector.x, 2) + std::pow(parallelVector.y, 2));
-		math::Vector2 normalVector{ parallelVector.x / magnitude, parallelVector.y / magnitude };
+		float mag = parallelVector.mag();
+		math::Vector2 normalVector{ parallelVector.x / mag, parallelVector.y / mag };
 		edgeNormals[index + 2] = normalVector;
 	}
 
@@ -170,7 +170,7 @@ void RECTANGLE_RECTANGLE(shapes::Rectangle& rec1, shapes::Rectangle& rec2) {
 	if (objectsCollidingPairs.find(std::make_pair(&rec1, &rec2)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
 		objectsCollidingPairs.insert(std::make_pair(&rec1, &rec2));
 
-		float mag = std::sqrt(pow(collisionPerpAxis.x, 2) + pow(collisionPerpAxis.y, 2));
+		float mag = collisionPerpAxis.mag();
 		math::Vector2<float> collisionNormal = collisionPerpAxis / mag;
 
 		math::Vector2<float> pointOfCollision;

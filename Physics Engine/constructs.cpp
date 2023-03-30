@@ -73,13 +73,13 @@ void miskTest3(Solver& solver) {
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -2};
 	circle.velocity = { 0,0 };
 	auto& circle2 = solver.addObject<shapes::Circle>();
-	circle2.updateRadius(.5);
+	circle2.updateRadius(1);
 	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, -2};
 	circle2.velocity = { 0,0 };
-	auto& spring = solver.addSpring(rec, circle, 50000, 50000);
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
 	spring.setSimulateSolid(true);
 	spring.autoSetLength();
-	auto& spring2 = solver.addSpring(circle, circle2, 50000, 50000);
+	auto& spring2 = solver.addSpring(circle, circle2, 10000, 10000);
 	spring2.setSimulateSolid(true);
 	spring2.autoSetLength();
 }
