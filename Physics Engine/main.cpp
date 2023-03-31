@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include <SFML/Graphics.hpp>
 #include "math.h"
+#include "phaseSpaceLogger.h"
 
 void miskTest3(Solver& solver);
 
@@ -18,8 +19,10 @@ int main() {
 	solver.set_frame_dt(frame_rate);
 	Renderer renderer{ window };
 	uint32_t x = 0;
+
 	miskTest3(solver);
 
+	phaseSpaceLogger phaseSpace;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -33,7 +36,7 @@ int main() {
 		window.clear(sf::Color::White);
 		renderer.render(solver);
 		window.display();
-
+		phaseSpace.addPhaseSpaceState(solver);
 		x++;
 	}
 }

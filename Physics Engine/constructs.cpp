@@ -65,7 +65,17 @@ void miskTest2(Solver& solver) { //Simple circle connected to anchored rectangle
 	auto& spring = solver.addSpring(rec, circle, 20);
 }
 void miskTest3(Solver& solver) {
-
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0.1, -2};
+	circle.velocity = { 0,0 };
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+}
+void miskTest4(Solver& solver) {
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
 	rec.anchored = true;
