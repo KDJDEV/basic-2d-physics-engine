@@ -16,7 +16,10 @@ phaseSpaceLogger::phaseSpaceLogger() : window(sf::VideoMode(windowSizeInPixels.x
 //	}
 //	window.display();
 //}
+sf::VertexArray trail(sf::LineStrip);
 void phaseSpaceLogger::addPhaseSpaceState(Solver& solver) {
+	window.clear();
+
 	auto& objects = solver.getObjects();
 	math::Vector2<float> difference = objects[1]->position - objects[0]->position;
 	math::Vector2<float> perp = { -difference.y, difference.x };
@@ -35,7 +38,7 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver) {
 		float d = difference.mag();
 		float angle = std::atan2(difference.y, difference.x) / math::PI * 180 - 90;
 
-		float width = 2;
+		float width = 4;
 		sf::RectangleShape rec(sf::Vector2f{ width, d });
 		rec.setPosition(sf::Vector2f{ prevPoint.x, prevPoint.y });
 		rec.setRotation(angle);
@@ -44,6 +47,9 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver) {
 
 		//sf::Vertex point(sf::Vector2f(point.x * pixelsPerMeter + windowSizeInPixels.x / 2, point.y * pixelsPerMeter + windowSizeInPixels.y / 2), sf::Color::Red);
 		window.draw(rec);
+
+		trail.append(sf::Vertex(sf::Vector2f{point.x, point.y}, sf::Color(255, 255, 255)));
+		window.draw(trail);
 	}
 	prevPoint = point;
 	prevPointSet = true;

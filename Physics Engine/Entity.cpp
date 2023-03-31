@@ -9,7 +9,10 @@ void Entity::update(float dt) {
 		velocity = { 0,0 };
 		angularVelocity = 0;
 	}
-
+	else {
+		float velMag = velocity.mag();
+		velocity = velocity - velocity / velMag * 1 / 2 * pow(velMag, 2) * 0.00001;
+	}
 	position = position + velocity * dt;
 	angle = angle + angularVelocity * dt;
 }
