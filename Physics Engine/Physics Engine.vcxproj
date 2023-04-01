@@ -157,6 +157,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="constructs.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="gravityBetweenBodies.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="phaseSpaceLogger.cpp" />
     <ClCompile Include="spring.cpp" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="collisions.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="gravityBetweenBodies.h" />
     <ClInclude Include="math.cpp" />
     <ClInclude Include="math.h" />
     <ClInclude Include="phaseSpaceLogger.h" />

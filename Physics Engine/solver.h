@@ -6,10 +6,11 @@
 #include "math.h"
 #include "entity.h"
 #include "spring.h"
-#include <set>
+#include "gravityBetweenBodies.h"
 
-extern math::Vector2<float> gravity;
+extern math::Vector2<float> universalGravity;
 extern math::Vector2<float> windowSizeInMeters;
+extern bool collisions;
 extern uint32_t substeps;
 class Solver {
 public:
@@ -20,11 +21,20 @@ public:
 	void update() {
 		float substep_dt = get_substep_dt();
 		for (uint32_t i{ substeps }; i--;) {
-			applyGravity();
+			applyUniversalGravity();
+			applyGravity(getObjects(), substep_dt);
 			updateObjects(substep_dt);
 			applySpringForces(substep_dt);
+			if (collisions)
 			checkCollisions();
 		}
+		/*
+		math::Vector2<float> centerOfMass;
+		for (auto& object : objects) {
+			centerOfMass = centerOfMass + object->position;
+		}
+		centerOfMass.print();
+		*/
 	}
 
 	template <typename t>
@@ -45,9 +55,9 @@ public:
 			object->update(substep_dt);
 		}
 	}
-	void applyGravity() {
+	void applyUniversalGravity() {
 		for (auto& object : objects) {
-			object->velocity = object->velocity + gravity / substeps;
+			object->velocity = object->velocity + universalGravity / substeps;
 		}
 	}
 

@@ -93,3 +93,16 @@ void miskTest4(Solver& solver) {
 	spring2.setSimulateSolid(true);
 	spring2.autoSetLength();
 }
+void miskTest5(Solver& solver) {
+	spawnBarrierWalls(solver);
+
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	circle.updateRadius(.5);
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{6, 8};
+	circle2.updateRadius(.5);
+	auto& circle3 = solver.addObject<shapes::Circle>();
+	circle3.position = windowSizeInMeters / 2 + math::Vector2<float>{-6, 7};
+	circle3.updateRadius(.5);
+}

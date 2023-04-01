@@ -4,13 +4,14 @@
 #include "math.h"
 #include "phaseSpaceLogger.h"
 
-void miskTest3(Solver& solver);
+void miskTest5(Solver& solver);
 
 int main() {
 	extern uint32_t frame_rate;
 	const extern char* windowTitle;
 	extern math::Vector2<float> windowSizeInPixels;
 	extern math::Vector2<float> windowSizeInMeters;
+	extern bool includePhaseSpace;
 
 	Solver solver{ windowSizeInPixels };
 	sf::RenderWindow window(sf::VideoMode(windowSizeInPixels.x, windowSizeInPixels.y), windowTitle);
@@ -20,9 +21,11 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t frame = 1;
 
-	miskTest3(solver);
+	miskTest5(solver);
 
-	phaseSpaceLogger phaseSpace;
+	std::optional<phaseSpaceLogger> phaseSpace;
+	if (includePhaseSpace)
+		phaseSpace.emplace();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -36,7 +39,8 @@ int main() {
 		window.clear(sf::Color::White);
 		renderer.render(solver);
 		window.display();
-		phaseSpace.addPhaseSpaceState(solver, frame);
+		if (includePhaseSpace)
+		phaseSpace->addPhaseSpaceState(solver, frame);
 		frame++;
 	}
 }

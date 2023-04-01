@@ -36,6 +36,9 @@
     <ClCompile Include="phaseSpaceLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gravityBetweenBodies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="phaseSpaceLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gravityBetweenBodies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
