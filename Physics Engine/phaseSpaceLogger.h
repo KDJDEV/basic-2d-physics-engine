@@ -4,9 +4,7 @@
 
 struct phaseSpaceLogger {
     phaseSpaceLogger();
-    void addPhaseSpaceState(Solver& solver);
+    void addPhaseSpaceState(Solver& solver, float frameCount);
+    void drawCoordinatePlane();
     sf::RenderWindow window;
-
-    math::Vector2<float> prevPoint;
-    bool prevPointSet = false;
 };

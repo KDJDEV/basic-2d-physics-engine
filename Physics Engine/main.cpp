@@ -18,7 +18,7 @@ int main() {
 	window.setFramerateLimit(frame_rate);
 	solver.set_frame_dt(frame_rate);
 	Renderer renderer{ window };
-	uint32_t x = 0;
+	uint32_t frame = 1;
 
 	miskTest3(solver);
 
@@ -36,7 +36,7 @@ int main() {
 		window.clear(sf::Color::White);
 		renderer.render(solver);
 		window.display();
-		phaseSpace.addPhaseSpaceState(solver);
-		x++;
+		phaseSpace.addPhaseSpaceState(solver, frame);
+		frame++;
 	}
 }

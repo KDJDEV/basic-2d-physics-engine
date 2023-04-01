@@ -4,6 +4,7 @@
 #include "collisions.h"
 
 extern float pixelsPerMeter;
+extern float dragCoefficient;
 void Entity::update(float dt) {
 	if (anchored) {
 		velocity = { 0,0 };
@@ -11,7 +12,8 @@ void Entity::update(float dt) {
 	}
 	else {
 		float velMag = velocity.mag();
-		velocity = velocity - velocity / velMag * 1 / 2 * pow(velMag, 2) * 0.00001;
+		velocity = velocity - velocity * dragCoefficient * dt;
+		//velocity = velocity - velocity * velMag * dragCoefficient * dt; if we want the drag to lessen as the object moves slower
 	}
 	position = position + velocity * dt;
 	angle = angle + angularVelocity * dt;
