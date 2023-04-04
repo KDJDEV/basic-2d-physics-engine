@@ -17,8 +17,8 @@ float dragCoefficient = 0; //try around 0.1
 
 bool includePhaseSpace = true;
 float phaseSpaceZoomSpeed = 0;
-float phaseUnitPixelSizeX = 100 / 1.2;
-float phaseUnitPixelSizeY = 80 / 1.2;
+float phaseUnitPixelSizeX = 100 * 0.7;
+float phaseUnitPixelSizeY = 80 * 0.7;
 
 
 //This can be automatically computed

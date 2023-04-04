@@ -58,11 +58,15 @@ struct Renderer {
 		}
 		
 		float currentTime = clock.restart().asSeconds();
+		totalTime += currentTime;
 		lastTime = currentTime;
 		if (frameCount % 10 == 0) {
 			float fps = 1.f / currentTime;
 			float KE = solver.getKE();
-			text.setString(std::to_string((int)fps) + " FPS " + std::to_string((int)(KE)) + " KE");
+			std::string timeString = std::to_string(round(totalTime * 100) / 100);
+			timeString.erase(timeString.find('.') + 3, std::string::npos);
+
+			text.setString(std::to_string((int)fps) + " FPS " + std::to_string((int)(KE)) + " KE " + timeString + " sec");
 		}
 		target.draw(text);
 	}
@@ -70,6 +74,7 @@ struct Renderer {
 	//FPS counter
 	sf::Clock clock;
 	float lastTime = 0;
+	float totalTime = 0;
 	int frameCount = 0;
 	sf::Font font;
 	sf::Text text;

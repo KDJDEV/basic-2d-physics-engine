@@ -53,10 +53,12 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
 	window.setView(view);
 
 	auto& objects = solver.getObjects();
-	math::Vector2<float> difference = objects[1]->position - objects[0]->position;
+	auto& object1 = objects[0];
+	auto& object2 = objects[1];
+	math::Vector2<float> difference = object2->position - object1->position;
 	math::Vector2<float> perp = { -difference.y, difference.x };
 	math::Vector2<float> perpNormal = perp / perp.mag();
-	math::Vector2<float> velocityDifference = objects[1]->velocity - objects[0]->velocity;
+	math::Vector2<float> velocityDifference = object2->velocity - object1->velocity;
 	float tangentialVelocity = velocityDifference.dot(perpNormal);
 	float angularVelocity = tangentialVelocity / difference.mag();
 	float angle = std::atan2(difference.y, difference.x);
