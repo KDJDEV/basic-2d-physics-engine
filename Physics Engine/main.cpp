@@ -4,7 +4,7 @@
 #include "math.h"
 #include "phaseSpaceLogger.h"
 
-void miskTest5(Solver& solver);
+void miskTest4(Solver& solver);
 
 int main() {
 	extern uint32_t frame_rate;
@@ -21,7 +21,7 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t frame = 1;
 
-	miskTest5(solver);
+	miskTest4(solver);
 
 	std::optional<phaseSpaceLogger> phaseSpace;
 	if (includePhaseSpace)
@@ -42,5 +42,7 @@ int main() {
 		if (includePhaseSpace)
 		phaseSpace->addPhaseSpaceState(solver, frame);
 		frame++;
+
+		//std::cin.get();
 	}
 }

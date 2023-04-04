@@ -65,7 +65,6 @@ struct Renderer {
 			text.setString(std::to_string((int)fps) + " FPS " + std::to_string((int)(KE)) + " KE");
 		}
 		target.draw(text);
-		
 	}
 
 	//FPS counter

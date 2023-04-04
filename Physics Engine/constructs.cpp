@@ -64,27 +64,28 @@ void miskTest2(Solver& solver) { //Simple circle connected to anchored rectangle
 
 	auto& spring = solver.addSpring(rec, circle, 20);
 }
-void miskTest3(Solver& solver) {
+void miskTest3(Solver& solver) { //Pendulum
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
 	rec.anchored = true;
 	auto& circle = solver.addObject<shapes::Circle>();
-	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0.1, -2};
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{3, -4};
 	circle.velocity = { 0,0 };
+
 	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
 	spring.setSimulateSolid(true);
 	spring.autoSetLength();
 }
-void miskTest4(Solver& solver) {
+void miskTest4(Solver& solver) {//Double pendulum
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
 	rec.anchored = true;
 	auto& circle = solver.addObject<shapes::Circle>();
-	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -2};
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{1.5, -2};
 	circle.velocity = { 0,0 };
 	auto& circle2 = solver.addObject<shapes::Circle>();
 	circle2.updateRadius(1);
-	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, -2};
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{4.5, -8};
 	circle2.velocity = { 0,0 };
 	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
 	spring.setSimulateSolid(true);
@@ -93,7 +94,7 @@ void miskTest4(Solver& solver) {
 	spring2.setSimulateSolid(true);
 	spring2.autoSetLength();
 }
-void miskTest5(Solver& solver) {
+void miskTest5(Solver& solver) {//Three body system
 	spawnBarrierWalls(solver);
 
 	auto& circle = solver.addObject<shapes::Circle>();
@@ -105,4 +106,8 @@ void miskTest5(Solver& solver) {
 	auto& circle3 = solver.addObject<shapes::Circle>();
 	circle3.position = windowSizeInMeters / 2 + math::Vector2<float>{-6, 7};
 	circle3.updateRadius(.5);
+}
+void miskTest6(Solver& solver) { //A single falling ball for testing gravity
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -8};
 }

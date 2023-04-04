@@ -21,7 +21,7 @@ public:
 	void update() {
 		float substep_dt = get_substep_dt();
 		for (uint32_t i{ substeps }; i--;) {
-			applyUniversalGravity();
+			applyUniversalGravity(substep_dt);
 			applyGravity(getObjects(), substep_dt);
 			updateObjects(substep_dt);
 			applySpringForces(substep_dt);
@@ -55,9 +55,9 @@ public:
 			object->update(substep_dt);
 		}
 	}
-	void applyUniversalGravity() {
+	void applyUniversalGravity(float dt) {
 		for (auto& object : objects) {
-			object->velocity = object->velocity + universalGravity / substeps;
+			object->velocity = object->velocity + universalGravity * dt;
 		}
 	}
 
