@@ -7,27 +7,33 @@ extern float pixelsPerMeter;
 extern float phaseSpaceZoomSpeed;
 extern float phaseUnitPixelSizeX;
 extern float phaseUnitPixelSizeY;
+extern bool darkMode;
+extern sf::Color primaryColor;
+
 phaseSpaceLogger::phaseSpaceLogger() : window(sf::VideoMode(windowSizeInPixels.x, windowSizeInPixels.y), "Phase Space") {}
 
 std::vector<std::unique_ptr<sf::VertexArray>> trails;
-
 void phaseSpaceLogger::drawCoordinatePlane() {
 	sf::VertexArray x_axis(sf::Lines, 2);
 	x_axis[0].position = sf::Vector2f(0, windowSizeInPixels.y / 2);
+	x_axis[0].color = primaryColor;
 	x_axis[1].position = sf::Vector2f(windowSizeInPixels.x, windowSizeInPixels.y / 2);
+	x_axis[1].color = primaryColor;
 	window.draw(x_axis);
 
 	sf::VertexArray y_axis(sf::Lines, 2);
 	y_axis[0].position = sf::Vector2f(windowSizeInPixels.x / 2, 0);
+	y_axis[0].color = primaryColor;
 	y_axis[1].position = sf::Vector2f(windowSizeInPixels.x / 2, windowSizeInPixels.y);
+	y_axis[1].color = primaryColor;
 	window.draw(y_axis);
 	
 	for (int i = -10; i <= 10; ++i)
 	{
 		sf::Vertex tick[] =
 		{
-			sf::Vertex(sf::Vector2f(i * phaseUnitPixelSizeX + windowSizeInPixels.x / 2, windowSizeInPixels.y / 2 - 5)),
-			sf::Vertex(sf::Vector2f(i * phaseUnitPixelSizeX + windowSizeInPixels.x / 2, windowSizeInPixels.y / 2 + 5))
+			sf::Vertex(sf::Vector2f(i * phaseUnitPixelSizeX + windowSizeInPixels.x / 2, windowSizeInPixels.y / 2 - 5), primaryColor),
+			sf::Vertex(sf::Vector2f(i * phaseUnitPixelSizeX + windowSizeInPixels.x / 2, windowSizeInPixels.y / 2 + 5), primaryColor)
 		};
 		window.draw(tick, 2, sf::Lines);
 	}
@@ -36,16 +42,24 @@ void phaseSpaceLogger::drawCoordinatePlane() {
 	{
 		sf::Vertex tick[] =
 		{
-			sf::Vertex(sf::Vector2f(windowSizeInPixels.x / 2 - 5, i * phaseUnitPixelSizeY + windowSizeInPixels.y / 2)),
-			sf::Vertex(sf::Vector2f(windowSizeInPixels.x / 2 + 5, i * phaseUnitPixelSizeY + windowSizeInPixels.y / 2))
+			sf::Vertex(sf::Vector2f(windowSizeInPixels.x / 2 - 5, i * phaseUnitPixelSizeY + windowSizeInPixels.y / 2), primaryColor),
+			sf::Vertex(sf::Vector2f(windowSizeInPixels.x / 2 + 5, i * phaseUnitPixelSizeY + windowSizeInPixels.y / 2), primaryColor)
 		};
 		window.draw(tick, 2, sf::Lines);
 	}
 }
 
+
 std::optional<math::Vector2<float>> lastPoint;
+std::optional<math::Vector2<float>> firstPoint;
 void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
-	window.clear();
+	if (darkMode) {
+		window.clear(sf::Color::Black);
+	}
+	else {
+		window.clear(sf::Color::White);
+	}
+	
 
 	float scaleFactor = frameCount * phaseSpaceZoomSpeed + 1;
 	sf::View view = window.getView();
@@ -69,21 +83,31 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
 
 		float radius = 4;
 		sf::CircleShape circle(radius);
-		circle.setPosition(sf::Vector2f{ point.x, point.y });
-		circle.setOrigin(sf::Vector2f{ radius, radius });
-		circle.setFillColor(sf::Color(255, 255, 255));
 
         drawCoordinatePlane();
-		window.draw(circle);
 
 		if (!lastPoint || ((point - lastPoint.value()).mag() > 100)) { //makes it pick up the pen when it loops back around
 			trails.emplace_back(std::make_unique<sf::VertexArray>(sf::Lines));
 		}
-		trails[trails.size() - 1]->append(sf::Vertex(sf::Vector2f{ point.x, point.y }, sf::Color(255, 255, 255)));
+		if (!firstPoint) {
+			firstPoint.emplace(point);
+		}
+		
+		trails[trails.size() - 1]->append(sf::Vertex(sf::Vector2f{ point.x, point.y }, primaryColor));
 
 		for (const auto& trail : trails) {
 			window.draw(*trail);
 		}
+
+		circle.setPosition(sf::Vector2f{ point.x, point.y });
+		circle.setOrigin(sf::Vector2f{ radius, radius });
+		circle.setFillColor(sf::Color::Red);
+		window.draw(circle);
+
+		circle.setPosition(sf::Vector2f{ firstPoint.value().x, firstPoint.value().y });
+		circle.setFillColor(sf::Color::Green);
+		window.draw(circle);
+
 		window.display();
 
 		lastPoint.emplace(point);

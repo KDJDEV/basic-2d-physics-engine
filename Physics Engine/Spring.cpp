@@ -1,6 +1,9 @@
 #include "spring.h"
 
 extern float pixelsPerMeter;
+extern bool darkMode;
+extern sf::Color primaryColor;
+extern sf::Color secondaryColor;
 Spring::Spring(Entity& obj1, Entity& obj2, float k , float c, float length) : obj1{ obj1 }, obj2{ obj2 }, springConstant{ k }, dampingCoefficient{ c }, length{ length } {}
 
 void Spring::applyForces(float dt) {
@@ -29,22 +32,32 @@ void drawSolidConnector(sf::RenderTarget& target, Entity& obj1, Entity& obj2) {
     sf::CircleShape circle1(width/2);
     circle1.setPosition(sf::Vector2f{start.x, start.y});
     circle1.setOrigin(sf::Vector2f{ width / 2, width / 2 });
-    circle1.setFillColor(sf::Color(0, 0, 0));
-
+    circle1.setFillColor(primaryColor);
+    if (darkMode) {
+        circle1.setOutlineColor(secondaryColor);
+        circle1.setOutlineThickness(1);
+    }
     sf::CircleShape circle2(width/2);
     circle2.setPosition(sf::Vector2f{ end.x, end.y });
     circle2.setOrigin(sf::Vector2f{ width / 2, width / 2 });
-    circle2.setFillColor(sf::Color(0, 0, 0));
-
+    circle2.setFillColor(primaryColor);
+    if (darkMode) {
+        circle2.setOutlineColor(secondaryColor);
+        circle2.setOutlineThickness(1);
+    }
     sf::RectangleShape rec(sf::Vector2f{ width, d });
     rec.setPosition(sf::Vector2f{ start.x, start.y });
     rec.setRotation(angle);
     rec.setOrigin(sf::Vector2f{width / 2, 0});
-    rec.setFillColor(sf::Color(0, 0, 0));
-
+    rec.setFillColor(primaryColor);
+    if (darkMode) {
+        rec.setOutlineColor(secondaryColor);
+        rec.setOutlineThickness(1);
+    }
+    target.draw(rec);
     target.draw(circle1);
     target.draw(circle2);
-    target.draw(rec);
+   
 }
 void Spring::draw(sf::RenderTarget& target) {
     if (simulateSolid) {
@@ -79,7 +92,7 @@ void Spring::draw(sf::RenderTarget& target) {
     sf::VertexArray spring(sf::LineStrip, nodes + 2);
     for (int i = 0; i < nodes + 2; i++) {
         spring[i].position = sf::Vector2f(springCoords[i].x, springCoords[i].y);
-        spring[i].color = sf::Color::Black;
+        spring[i].color = primaryColor;
     }
 
     target.draw(spring);

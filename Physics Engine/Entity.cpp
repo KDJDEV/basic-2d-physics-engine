@@ -5,6 +5,10 @@
 
 extern float pixelsPerMeter;
 extern float dragCoefficient;
+extern bool circleShapeDotVisible;
+extern bool darkMode;
+extern sf::Color primaryColor;
+extern sf::Color secondaryColor;
 void Entity::update(float dt) {
 	if (anchored) {
 		velocity = { 0,0 };
@@ -23,6 +27,9 @@ void Entity::setAnchored(bool anchored) {
 	mass = INFINITY;
 	updateMomentOfInertia();
 }
+void Entity::setDoesCollide(bool doesCollide) {
+	this->doesCollide = doesCollide;
+}
 
 using namespace shapes;
 Circle::Circle() {
@@ -31,16 +38,22 @@ Circle::Circle() {
 	circleShape.setOrigin(radius * pixelsPerMeter, radius * pixelsPerMeter);
 	circleShape.setRadius(radius * pixelsPerMeter);
 	circleShape.setFillColor(color);
+	if (darkMode) {
+		circleShape.setOutlineColor(secondaryColor);
+		circleShape.setOutlineThickness(1);
+	}
 	circleShape.setPointCount(100);
 
 	circleShapeDot.setOrigin(radius / 5 * pixelsPerMeter, radius / 5 * pixelsPerMeter);
 	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);
-	circleShapeDot.setFillColor(sf::Color{255, 255, 255});
+	circleShapeDot.setFillColor(sf::Color::White);
 }
 void Circle::draw(sf::RenderTarget& target) {
 	circleShape.setPosition(position.x * pixelsPerMeter, position.y * pixelsPerMeter);
 	circleShapeDot.setPosition((position.x + (-radius / 2 * std::sin(angle))) * pixelsPerMeter, (position.y + (radius / 2 * std::cos(angle))) * pixelsPerMeter);
 	target.draw(circleShape);
+
+	if (circleShapeDotVisible)
 	target.draw(circleShapeDot);
 }
 
@@ -69,7 +82,6 @@ void Circle::updateRadius(float radius) {
 
 	circleShapeDot.setOrigin(radius / 5 * pixelsPerMeter, radius / 5 * pixelsPerMeter);
 	circleShapeDot.setRadius(radius / 5 * pixelsPerMeter);
-	circleShapeDot.setFillColor(sf::Color{ 255, 255, 255 });
 }
 
 Rectangle::Rectangle() {
@@ -79,6 +91,10 @@ Rectangle::Rectangle() {
 	rectangleShape.setOrigin(width / 2 * pixelsPerMeter, height / 2 * pixelsPerMeter);
 	rectangleShape.setSize(sf::Vector2f{ width * pixelsPerMeter, height * pixelsPerMeter });
 	rectangleShape.setFillColor(color);
+	if (darkMode) {
+		rectangleShape.setOutlineColor(secondaryColor);
+		rectangleShape.setOutlineThickness(1);
+	}
 }
 void Rectangle::draw(sf::RenderTarget& target) {
 	rectangleShape.setPosition(position.x * pixelsPerMeter, position.y * pixelsPerMeter);

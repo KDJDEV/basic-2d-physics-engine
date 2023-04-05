@@ -65,6 +65,7 @@ public:
 	{
 		for (int i = 0;i < objects.size();i++) {
 			for (int i2 = i + 1;i2 < objects.size();i2++) {
+				if (objects[i]->doesCollide && objects[i2]->doesCollide)
 				objects[i]->collide(*objects[i2]);
 			}
 		}

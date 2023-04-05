@@ -18,8 +18,9 @@ struct Entity {
 	float momentOfInteria;
 
 	bool anchored = false;
+	bool doesCollide = true;
 	void setAnchored(bool anchored);
-
+	void setDoesCollide(bool doesCollide);
 	sf::Color color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
 
 	void update(float dt);

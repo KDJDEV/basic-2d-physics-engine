@@ -58,6 +58,7 @@ void miskTest2(Solver& solver) { //Simple circle connected to anchored rectangle
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2;
 	rec.anchored = true;
+	rec.setDoesCollide(false);
 	auto& circle = solver.addObject<shapes::Circle>();
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 4};
 	circle.velocity = { 5,0 };
@@ -68,6 +69,7 @@ void miskTest3(Solver& solver) { //Pendulum
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
 	rec.anchored = true;
+	rec.setDoesCollide(false);
 	auto& circle = solver.addObject<shapes::Circle>();
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{3, -4};
 	circle.velocity = { 0,0 };
@@ -80,6 +82,7 @@ void miskTest4(Solver& solver) {//Double pendulum
 	auto& rec = solver.addObject<shapes::Rectangle>();
 	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
 	rec.anchored = true;
+	rec.setDoesCollide(false);
 	auto& circle = solver.addObject<shapes::Circle>();
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{1.5, -2};
 	circle.velocity = { 0,0 };
@@ -94,7 +97,46 @@ void miskTest4(Solver& solver) {//Double pendulum
 	spring2.setSimulateSolid(true);
 	spring2.autoSetLength();
 }
-void miskTest5(Solver& solver) {//Three body system
+void miskTest5(Solver& solver) { //Double pendulum with pretty phase space
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	rec.setDoesCollide(false);
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{1.5, 2};
+	circle.velocity = { 0,0 };
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.updateRadius(1);
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{3, 4};
+	circle2.velocity = { 0,0 };
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+	auto& spring2 = solver.addSpring(circle, circle2, 10000, 10000);
+	spring2.setSimulateSolid(true);
+	spring2.autoSetLength();
+}
+void miskTest6(Solver& solver) { //Double pendulum where the first pendulum doesn't loop
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	rec.setDoesCollide(false);
+	rec.updateSize(0.1,0.1);
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{3, -2};
+	circle.velocity = { 0,0 };
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.updateRadius(1);
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{6, -4};
+	circle2.velocity = { 0,0 };
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+	auto& spring2 = solver.addSpring(circle, circle2, 10000, 10000);
+	spring2.setSimulateSolid(true);
+	spring2.autoSetLength();
+}
+void miskTest7(Solver& solver) {//Three body system
 	spawnBarrierWalls(solver);
 
 	auto& circle = solver.addObject<shapes::Circle>();
@@ -107,7 +149,7 @@ void miskTest5(Solver& solver) {//Three body system
 	circle3.position = windowSizeInMeters / 2 + math::Vector2<float>{-6, 7};
 	circle3.updateRadius(.5);
 }
-void miskTest6(Solver& solver) { //A single falling ball for testing gravity
+void miskTest8(Solver& solver) { //A single falling ball for testing gravity
 	auto& circle = solver.addObject<shapes::Circle>();
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -8};
 }

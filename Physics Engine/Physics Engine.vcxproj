@@ -168,6 +168,7 @@
     <ClInclude Include="gravityBetweenBodies.h" />
     <ClInclude Include="math.cpp" />
     <ClInclude Include="math.h" />
+    <ClInclude Include="miskTests.h" />
     <ClInclude Include="phaseSpaceLogger.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />

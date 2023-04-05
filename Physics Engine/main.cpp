@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include "math.h"
 #include "phaseSpaceLogger.h"
+#include "miskTests.h"
 
-void miskTest4(Solver& solver);
-
+extern sf::Color secondaryColor;
 int main() {
 	extern uint32_t frame_rate;
 	const extern char* windowTitle;
@@ -21,7 +21,8 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t frame = 1;
 
-	miskTest4(solver);
+	/*switch out the miskTest here*/
+	miskTest6(solver);
 
 	std::optional<phaseSpaceLogger> phaseSpace;
 	if (includePhaseSpace)
@@ -36,7 +37,7 @@ int main() {
 		}
 
 		solver.update();
-		window.clear(sf::Color::White);
+		window.clear(secondaryColor);
 		renderer.render(solver);
 		window.display();
 		if (includePhaseSpace)

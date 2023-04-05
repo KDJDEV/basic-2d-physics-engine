@@ -5,7 +5,9 @@
 #include "math.h"
 
 extern math::Vector2<float> windowSizeInMeters;
-
+extern bool darkMode;
+extern sf::Color primaryColor;
+extern sf::Color secondaryColor;
 sf::VertexArray createGrid(sf::RenderTarget& win, int rows, int cols) {
 	// initialize values
 	int numLines = rows + cols - 2;
@@ -15,11 +17,12 @@ sf::VertexArray createGrid(sf::RenderTarget& win, int rows, int cols) {
 	float rowH = size.y / rows;
 	float colW = size.x / cols;
 	// row separators
+	sf::Color gridColor = darkMode ? sf::Color{ 50,50,50 } : sf::Color{ 50, 50, 50, 100 };
 	for (int i = 0; i < rows - 1; i++) {
 		int r = i + 1;
 		float rowY = rowH * r;
-		grid[i * 2].color = { 50, 50, 50, 100 };
-		grid[i * 2 + 1].color = { 50, 50, 50, 100 };
+		grid[i * 2].color = gridColor;
+		grid[i * 2 + 1].color = gridColor;
 		grid[i * 2].position = { 0, rowY };
 		grid[i * 2 + 1].position = { size.x, rowY };
 	}
@@ -27,8 +30,8 @@ sf::VertexArray createGrid(sf::RenderTarget& win, int rows, int cols) {
 	for (int i = rows - 1; i < numLines; i++) {
 		int c = i - rows + 2;
 		float colX = colW * c;
-		grid[i * 2].color = { 50, 50, 50, 100 };
-		grid[i * 2 + 1].color = { 50, 50, 50, 100 };
+		grid[i * 2].color = gridColor;
+		grid[i * 2 + 1].color = gridColor;
 		grid[i * 2].position = { colX, 0 };
 		grid[i * 2 + 1].position = { colX, size.y };
 	}
@@ -41,7 +44,7 @@ struct Renderer {
 		text.setFont(font);
 		text.setCharacterSize(24);
 		text.setPosition(sf::Vector2f(3, 3));
-		text.setFillColor(sf::Color::Red);
+		text.setFillColor(primaryColor);
 
 		grid = createGrid(target, windowSizeInMeters.x, windowSizeInMeters.y);
 	}
@@ -66,7 +69,7 @@ struct Renderer {
 			std::string timeString = std::to_string(round(totalTime * 100) / 100);
 			timeString.erase(timeString.find('.') + 3, std::string::npos);
 
-			text.setString(std::to_string((int)fps) + " FPS " + std::to_string((int)(KE)) + " KE " + timeString + " sec");
+			text.setString(std::to_string((int)fps) + " FPS " + std::to_string((int)(KE)) + " KE " + timeString + "s");
 		}
 		target.draw(text);
 	}

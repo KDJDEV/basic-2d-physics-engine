@@ -71,6 +71,9 @@
     <ClInclude Include="gravityBetweenBodies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="miskTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="sourceCodePro.ttf" />
