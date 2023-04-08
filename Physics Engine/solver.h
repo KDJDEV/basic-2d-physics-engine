@@ -50,9 +50,9 @@ public:
 		springs.push_back(std::move(spring));
 		return *ptr;
 	}
-	void updateObjects(float substep_dt) {
+	void updateObjects(float dt) {
 		for (auto& object : objects) {
-			object->update(substep_dt);
+			object->update(dt);
 		}
 	}
 	void applyUniversalGravity(float dt) {

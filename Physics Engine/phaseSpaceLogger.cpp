@@ -8,9 +8,10 @@ extern float phaseSpaceZoomSpeed;
 extern float phaseUnitPixelSizeX;
 extern float phaseUnitPixelSizeY;
 extern bool darkMode;
+const extern char* phaseSpaceWindowTitle;
 extern sf::Color primaryColor;
 
-phaseSpaceLogger::phaseSpaceLogger() : window(sf::VideoMode(windowSizeInPixels.x, windowSizeInPixels.y), "Phase Space") {}
+phaseSpaceLogger::phaseSpaceLogger() : window(sf::VideoMode(windowSizeInPixels.x, windowSizeInPixels.y), phaseSpaceWindowTitle) {}
 
 std::vector<std::unique_ptr<sf::VertexArray>> trails;
 void phaseSpaceLogger::drawCoordinatePlane() {
@@ -67,8 +68,8 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
 	window.setView(view);
 
 	auto& objects = solver.getObjects();
-	auto& object1 = objects[0];
-	auto& object2 = objects[1];
+	auto& object1 = objects[1];
+	auto& object2 = objects[2];
 	math::Vector2<float> difference = object2->position - object1->position;
 	math::Vector2<float> perp = { -difference.y, difference.x };
 	math::Vector2<float> perpNormal = perp / perp.mag();

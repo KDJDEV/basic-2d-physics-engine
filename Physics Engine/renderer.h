@@ -8,6 +8,8 @@ extern math::Vector2<float> windowSizeInMeters;
 extern bool darkMode;
 extern sf::Color primaryColor;
 extern sf::Color secondaryColor;
+extern float stopAtTime;
+
 sf::VertexArray createGrid(sf::RenderTarget& win, int rows, int cols) {
 	// initialize values
 	int numLines = rows + cols - 2;
@@ -62,6 +64,9 @@ struct Renderer {
 		
 		float currentTime = clock.restart().asSeconds();
 		totalTime += currentTime;
+		if (stopAtTime != -1 && totalTime >= stopAtTime) {
+			std::cin.get();
+		}
 		lastTime = currentTime;
 		if (frameCount % 10 == 0) {
 			float fps = 1.f / currentTime;

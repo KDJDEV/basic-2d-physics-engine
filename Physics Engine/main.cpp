@@ -21,8 +21,8 @@ int main() {
 	Renderer renderer{ window };
 	uint32_t frame = 1;
 
-	/*switch out the miskTest here*/
-	miskTest6(solver);
+	/*"switch out the miskTest here"*/
+	miskTest9(solver);
 
 	std::optional<phaseSpaceLogger> phaseSpace;
 	if (includePhaseSpace)
@@ -43,7 +43,5 @@ int main() {
 		if (includePhaseSpace)
 		phaseSpace->addPhaseSpaceState(solver, frame);
 		frame++;
-
-		//std::cin.get();
 	}
 }

@@ -153,3 +153,11 @@ void miskTest8(Solver& solver) { //A single falling ball for testing gravity
 	auto& circle = solver.addObject<shapes::Circle>();
 	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -8};
 }
+void miskTest9(Solver& solver) { //two balls colliding for testing collisions
+	auto& circle1 = solver.addObject<shapes::Circle>();
+	circle1.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, 0};
+	circle1.velocity = { 1, 0 };
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{4, 0.5};
+	circle2.velocity = { -1, 0 };
+}
