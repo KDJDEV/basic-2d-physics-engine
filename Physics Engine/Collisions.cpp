@@ -50,6 +50,10 @@ void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 		objectsCollidingPairs.erase(std::make_pair(&circle1, &circle2));
 	}
 }
+void JOSH_CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
+	const math::Vector2<float> d = circle1.position - circle2.position;
+	
+}
 void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 	/*Since collisions are frictionless, the circle will have no change in angular velocity*/
 

@@ -14,10 +14,6 @@ extern bool collisions;
 extern uint32_t substeps;
 class Solver {
 public:
-	Solver(math::Vector2<float> windowSize) {
-		grid = math::Grid<Entity>{ 20.0f, windowSize }; //must be no less than one third of the windowSize and twice the size of the ball
-		grid.calculateDimensions(windowSize);
-	}
 	void update() {
 		float substep_dt = get_substep_dt();
 		for (uint32_t i{ substeps }; i--;) {
@@ -103,6 +99,5 @@ private:
 
 	std::vector<std::unique_ptr<Entity>> objects;
 	std::vector<std::unique_ptr<Spring>> springs;
-	math::Grid<Entity> grid;
 	float frame_dt;
 };

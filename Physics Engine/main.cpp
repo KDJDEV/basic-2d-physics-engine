@@ -13,7 +13,7 @@ int main() {
 	extern math::Vector2<float> windowSizeInMeters;
 	extern bool includePhaseSpace;
 
-	Solver solver{ windowSizeInPixels };
+	Solver solver;
 	sf::RenderWindow window(sf::VideoMode(windowSizeInPixels.x, windowSizeInPixels.y), windowTitle);
 
 	window.setFramerateLimit(frame_rate);
