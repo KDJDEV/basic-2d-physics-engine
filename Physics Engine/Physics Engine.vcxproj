@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\KDJ\Desktop\Projects\Programming\Physics Test\Physics Engine\SFML-2.5.1/include;C:\Users\KDJ\Desktop\Projects\Programming\Physics Test\Physics Engine\SFML-2.5.1/include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\KDJ\Desktop\Projects\Programming\Physics Test\Physics Test\SFML-2.5.1\lib;C:\Users\KDJ\Desktop\Projects\Programming\Physics Test\Physics Engine\SFML-2.5.1\lib</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)SFML-2.5.1\include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)SFML-2.5.1\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)SFML-2.5.1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
@@ -121,7 +121,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)SFML-2.5.1\lib;C:\Users\KDJ\Desktop\Projects\Programming\Physics Engine\Physics Test\SFML-2.5.1\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)SFML-2.5.1\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)sourceCodePro.ttf" "$(TargetDir)" /y</Command>
@@ -159,6 +159,8 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="gravityBetweenBodies.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="matrix.h" />
+    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="phaseSpaceLogger.cpp" />
     <ClCompile Include="spring.cpp" />
   </ItemGroup>

@@ -9,6 +9,7 @@ extern bool circleShapeDotVisible;
 extern bool darkMode;
 extern sf::Color primaryColor;
 extern sf::Color secondaryColor;
+extern bool useJoshCircleCollisions;
 void Entity::update(float dt) {
 	if (anchored) {
 		velocity = { 0,0 };
@@ -61,7 +62,11 @@ void Circle::collide(Entity& entity) {
 	entity.collideWithCircle(*this);
 }
 void Circle::collideWithCircle(shapes::Circle& circle) {
-	CIRCLE_CIRCLE(*this, circle);
+	if (useJoshCircleCollisions) {
+		JOSH_CIRCLE_CIRCLE(*this, circle);
+	}else{
+		CIRCLE_CIRCLE(*this, circle);
+	}
 }
 void Circle::collideWithRectangle(shapes::Rectangle& rec) {
 	RECTANGLE_CIRCLE(rec, *this);

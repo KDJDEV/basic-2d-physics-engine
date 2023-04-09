@@ -1,6 +1,7 @@
 #pragma once
 #include "collisions.h"
 #include "math.h"
+#include "matrix.h"
 #include <algorithm>
 
 /*
@@ -33,7 +34,7 @@ void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 	if (dist2 < pow(min_dist, 2)) {
 		if (objectsCollidingPairs.find(std::make_pair(&circle1, &circle2)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
 			objectsCollidingPairs.insert(std::make_pair(&circle1, &circle2));
-			const float dist = sqrt(dist2);
+			const float dist = circle1.radius + circle2.radius;
 			const math::Vector2<float> collisionNormal = d / dist;
 			const math::Vector2<float> relativeVelocity = circle1.velocity - circle2.velocity;
 
@@ -50,9 +51,38 @@ void CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
 		objectsCollidingPairs.erase(std::make_pair(&circle1, &circle2));
 	}
 }
-void JOSH_CIRCLE_CIRCLE(shapes::Circle& circle1, shapes::Circle& circle2) {
-	const math::Vector2<float> d = circle1.position - circle2.position;
-	
+
+
+void JOSH_CIRCLE_CIRCLE(shapes::Circle& circleA, shapes::Circle& circleB) {
+	const math::Vector2<float> d = circleA.position - circleB.position;
+	const float dist2 = pow(d.x, 2) + pow(d.y, 2);
+	const float min_dist = circleA.radius + circleB.radius;
+	// Check overlapping
+	if (dist2 < pow(min_dist, 2)) {
+		if (objectsCollidingPairs.find(std::make_pair(&circleA, &circleB)) == objectsCollidingPairs.end()) { //check if an impulse has already been applied to these two objects for this collision
+			objectsCollidingPairs.insert(std::make_pair(&circleA, &circleB));
+			
+			Matrix velocityA{ {{circleA.velocity.x}, {circleA.velocity.y}} };
+			Matrix velocityB{ {{circleB.velocity.x}, {circleB.velocity.y}} };
+			const float mag = circleA.radius + circleB.radius;
+
+			math::Vector2<float> gHat = d / mag;
+
+			Matrix gToWorldTransform({ {gHat.x, -gHat.y}, {gHat.y, gHat.x} });
+			Matrix worldToGTransform = gToWorldTransform.inverse();
+
+			Matrix velocityOfAIngh = worldToGTransform * velocityA;
+			Matrix velocityOfBIngh = worldToGTransform * velocityB;
+
+			Matrix newVelocityA = gToWorldTransform * (Matrix{ { { (circleA.mass - circleB.mass) / (circleA.mass + circleB.mass), 0 }, { 0, 1 } } } * velocityOfAIngh + Matrix{ { { 2 * circleB.mass * velocityOfBIngh.mat[0][0] / (circleA.mass + circleB.mass) }, { 0 } } });
+			Matrix newVelocityB = gToWorldTransform * (Matrix{ { { (circleB.mass - circleA.mass) / (circleB.mass + circleA.mass), 0 }, { 0, 1 } } } * velocityOfBIngh + Matrix{ { { 2 * circleA.mass * velocityOfAIngh.mat[0][0] / (circleB.mass + circleA.mass) }, { 0 } } });
+			circleA.velocity = { newVelocityA.mat[0][0], newVelocityA.mat[1][0] };
+			circleB.velocity = { newVelocityB.mat[0][0], newVelocityB.mat[1][0] };
+		}
+		else {
+			objectsCollidingPairs.erase(std::make_pair(&circleA, &circleB));
+		}
+	}
 }
 void RECTANGLE_CIRCLE(shapes::Rectangle& rec, shapes::Circle& circle) {
 	/*Since collisions are frictionless, the circle will have no change in angular velocity*/

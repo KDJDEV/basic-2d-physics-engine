@@ -13,6 +13,7 @@ float gravity = 0; //try 200
 float minGravityDistance = 2; //When objects are this close together or closer gravity will stop acting; this is to prevent infinity gravity when objects are at the same positions
 
 bool collisions = true;
+bool useJoshCircleCollisions = true;
 float restitutionCoefficient = 1;
 
 float dragCoefficient = 0; //try around 0.1
