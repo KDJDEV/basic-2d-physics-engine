@@ -68,8 +68,8 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
 	window.setView(view);
 
 	auto& objects = solver.getObjects();
-	auto& object1 = objects[1];
-	auto& object2 = objects[2];
+	auto& object1 = objects[0];
+	auto& object2 = objects[1];
 	math::Vector2<float> difference = object2->position - object1->position;
 	math::Vector2<float> perp = { -difference.y, difference.x };
 	math::Vector2<float> perpNormal = perp / perp.mag();
@@ -94,7 +94,7 @@ void phaseSpaceLogger::addPhaseSpaceState(Solver& solver, float frameCount) {
 			firstPoint.emplace(point);
 		}
 		
-		trails[trails.size() - 1]->append(sf::Vertex(sf::Vector2f{ point.x, point.y }, primaryColor));
+		trails[trails.size() - 1]->append(sf::Vertex(sf::Vector2f{ point.x, point.y }, sf::Color(rand() % 255, rand() % 255, rand() % 255)));
 
 		for (const auto& trail : trails) {
 			window.draw(*trail);

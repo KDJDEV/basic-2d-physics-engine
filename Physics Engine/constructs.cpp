@@ -84,7 +84,7 @@ void miskTest4(Solver& solver) {//Double pendulum
 	rec.anchored = true;
 	rec.setDoesCollide(false);
 	auto& circle = solver.addObject<shapes::Circle>();
-	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{1.5, -2};
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{1.5, -2}; //0.000001
 	circle.velocity = { 0,0 };
 	auto& circle2 = solver.addObject<shapes::Circle>();
 	circle2.updateRadius(1);
@@ -155,9 +155,127 @@ void miskTest8(Solver& solver) { //A single falling ball for testing gravity
 }
 void miskTest9(Solver& solver) { //two balls colliding for testing collisions
 	auto& circle1 = solver.addObject<shapes::Circle>();
-	circle1.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, -0.8};
+	circle1.position = windowSizeInMeters / 2 + math::Vector2<float>{-4, -0.5};
 	circle1.velocity = { 2, 0 };
 	auto& circle2 = solver.addObject<shapes::Circle>();
 	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{4, 1};
-	circle2.velocity = { -1, 0 };
+	circle2.velocity = { -3, 0 };
+}
+
+void miskTest10(Solver& solver) { //Misk objects
+	spawnBarrierWalls(solver);
+
+	auto& rec1 = solver.addObject<shapes::Rectangle>();
+	auto& circle = solver.addObject<shapes::Circle>();
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	auto& circle3 = solver.addObject<shapes::Circle>();
+
+	rec1.position = { 3, 5 };
+	rec1.velocity = { 2, 0 };
+	rec1.updateSize(2, 3);
+	rec1.angularVelocity = 0.1;
+
+	circle.position = { 10, 5 };
+	circle.angularVelocity = 0;
+	circle.velocity = { 5, 1 };
+	circle.updateRadius(3);
+	circle2.position = { 15, 15 };
+	circle2.angularVelocity = 0;
+	circle2.velocity = { 0, 5 };
+	circle3.position = { 5, 5 };
+	circle2.angularVelocity = 0;
+	circle2.velocity = { 0, 0 };
+}
+
+void miskTest11(Solver& solver) { //Two circles connected with spring
+	spawnBarrierWalls(solver);
+
+	auto& circle = solver.addObject<shapes::Circle>();
+	auto& circle2 = solver.addObject<shapes::Circle>();
+
+	circle.position = { 10, 5 };
+	circle.angularVelocity = 0;
+	circle.velocity = { 5, 1 };
+	circle.updateRadius(2);
+	circle2.position = { 15, 15 };
+	circle2.angularVelocity = 0;
+	circle2.velocity = { 0, 5 };
+
+	auto& spring = solver.addSpring(circle, circle2, 10.f);
+}
+
+#include <random>
+float randomFloat(float min, float max) {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dis(min, max);
+	return dis(gen);
+}
+extern math::Vector2<float> windowSizeInMeters;
+void miskTest12(Solver& solver) { //Misk objects
+	spawnBarrierWalls(solver);
+
+	const int numCircles = 200;
+	const float minRadius = 0.2f;
+	const float maxRadius = 0.4f;
+
+	for (int i = 0; i < numCircles; ++i) {
+		auto& circle = solver.addObject<shapes::Circle>();
+
+		circle.position = math::Vector2<float>{ randomFloat(-windowSizeInMeters.x/2 + 2, windowSizeInMeters.x/2 - 2), randomFloat(-windowSizeInMeters.y/2 + 2, windowSizeInMeters.y/2 - 2) } + windowSizeInMeters/2;
+		circle.angularVelocity = 0;
+		circle.velocity = { randomFloat(-5.0f, 5.0f), randomFloat(-5.0f, 5.0f) };
+		circle.updateRadius(randomFloat(minRadius, maxRadius));
+	}
+
+}
+
+void miskTest13(Solver& solver) { //Another double pendulum
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	rec.setDoesCollide(false);
+	rec.updateSize(0.1, 0.1);
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -3};
+	circle.velocity = { 0,0 };
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.updateRadius(1);
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{0.1, -6};
+	circle2.velocity = { 0,0 };
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+	auto& spring2 = solver.addSpring(circle, circle2, 10000, 10000);
+	spring2.setSimulateSolid(true);
+	spring2.autoSetLength();
+}
+
+void miskTest14(Solver& solver) { //Bouncing ball
+	spawnBarrierWalls(solver);
+
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{0, -8};
+}
+void miskTest15(Solver& solver) { //FAST double pendulum
+	auto& rec = solver.addObject<shapes::Rectangle>();
+	rec.position = windowSizeInMeters / 2 + math::Vector2<float>{0, 0};
+	rec.anchored = true;
+	rec.setDoesCollide(false);
+	rec.updateSize(0.1, 0.1);
+	auto& circle = solver.addObject<shapes::Circle>();
+	circle.position = windowSizeInMeters / 2 + math::Vector2<float>{3, -2};
+	circle.velocity = { 0,0 };
+	circle.circleShape.setFillColor(sf::Color::Red);
+	auto& circle2 = solver.addObject<shapes::Circle>();
+	circle2.updateRadius(1);
+	circle2.position = windowSizeInMeters / 2 + math::Vector2<float>{6, -4};
+	circle2.velocity = { 100,0 };
+	circle2.circleShape.setFillColor(sf::Color::Blue);
+	auto& spring = solver.addSpring(rec, circle, 10000, 10000);
+	spring.setSimulateSolid(true);
+	spring.autoSetLength();
+	auto& spring2 = solver.addSpring(circle, circle2, 10000, 10000);
+	spring2.setSimulateSolid(true);
+	spring2.autoSetLength();
 }

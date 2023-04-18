@@ -10,9 +10,6 @@ I am using double dispatch.
 Each specific kind of Entity has a collide function. If the Entity is a circle, then it calls the collideWithCircle function on the Entity it is colliding with.
 */
 extern float restitutionCoefficient;
-/*float calculate_j(Entity& obj1, Entity& obj2, math::Vector2<float> r1, math::Vector2<float> r2, math::Vector2<float> collisionNormal) { //calculates impulse scalar
-	return (-1 - restitutionCoefficient) * (obj1.velocity.dot(collisionNormal) - obj2.velocity.dot(collisionNormal) + obj1.angularVelocity * r1.dot(collisionNormal) - obj2.angularVelocity * r2.dot(collisionNormal)) / (1 / obj1.mass + 1 / obj2.mass + pow(r1.dot(collisionNormal), 2) / obj1.momentOfInteria + pow(r2.dot(collisionNormal), 2) / obj2.momentOfInteria);
-}*/
 float calculate_j(Entity& obj1, Entity& obj2, math::Vector2<float> r1Perp, math::Vector2<float> r2Perp, math::Vector2<float> collisionNormal) { //calculates impulse scalar
 	math::Vector2<float> velocityAtPointOfCollision1 = obj1.velocity + r1Perp * obj1.angularVelocity;
 	math::Vector2<float> velocityAtPointOfCollision2 = obj2.velocity + r2Perp * obj2.angularVelocity;
