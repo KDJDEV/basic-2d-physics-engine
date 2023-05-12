@@ -98,6 +98,19 @@ Matrix Matrix::inverse() const {
 	}
 	return result;
 }
+Matrix Matrix::joshInverse() const {
+	Matrix result(rows, cols);
+	if (result.rows != 2 || result.cols != 2) {
+		throw std::invalid_argument("Matrix is not 2x2");
+	}
+
+	result.mat[0][0] = mat[0][0];
+	result.mat[0][1] = mat[0][1];
+	result.mat[1][0] = -mat[1][0];
+	result.mat[1][1] = mat[1][1];
+
+	return result;
+}
 
 void Matrix::print() const {
 	std::cout << "[";

@@ -22,7 +22,7 @@ int main() {
 	uint32_t frame = 1;
 
 	/*"switch out the miskTest here"*/
-	miskTest13(solver);
+	miskTest9(solver);
 
 	std::optional<phaseSpaceLogger> phaseSpace;
 	if (includePhaseSpace)

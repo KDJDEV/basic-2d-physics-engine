@@ -14,6 +14,7 @@ struct Matrix {
 	float determinant() const;
 
 	Matrix inverse() const;
+	Matrix joshInverse() const;
 
 	void print() const;
 };

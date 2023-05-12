@@ -66,7 +66,7 @@ void JOSH_CIRCLE_CIRCLE(shapes::Circle& circleA, shapes::Circle& circleB) {
 			math::Vector2<float> gHat = d / mag;
 
 			Matrix gToWorldTransform({ {gHat.x, -gHat.y}, {gHat.y, gHat.x} });
-			Matrix worldToGTransform = gToWorldTransform.inverse();
+			Matrix worldToGTransform = gToWorldTransform.joshInverse();
 
 			Matrix velocityOfAIngh = worldToGTransform * velocityA;
 			Matrix velocityOfBIngh = worldToGTransform * velocityB;

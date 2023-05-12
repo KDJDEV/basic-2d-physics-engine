@@ -8,7 +8,7 @@ math::Vector2<float> windowSizeInMeters{ 25, 25 };
 bool darkMode = true;
 bool circleShapeDotVisible = false;
 
-math::Vector2<float> universalGravity = { 0.0f, 9.8f }; //in m/sec
+math::Vector2<float> universalGravity = { 0.0f, 0.0f }; //in m/sec
 float gravity = 0; //try 200
 float minGravityDistance = 2; //When objects are this close together or closer gravity will stop acting; this is to prevent infinity gravity when objects are at the same positions
 
